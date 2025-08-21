@@ -1,0 +1,657 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+:root {
+    --primary: #3498db;
+    --secondary: #2c3e50;
+    --success: #2ecc71;
+    --warning: #f39c12;
+    --danger: #e74c3c;
+    --light: #ecf0f1;
+    --dark: #34495e;
+    --admin: #9b59b6;
+}
+
+body {
+    background: linear-gradient(135deg, #1a2a6c, #b21f1f, #1a2a6c);
+    color: white;
+    min-height: 100vh;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    width: 100%;
+    padding: 0 15px;
+}
+
+header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding: 15px 0;
+    border-bottom: 2px solid rgba(255, 255, 255, 0.2);
+    margin-bottom: 20px;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 10px;
+}
+
+.logo i {
+    font-size: 2rem;
+    color: var(--primary);
+}
+
+.logo h1 {
+    font-size: 1.5rem;
+}
+
+.datetime h2 {
+    font-size: 1rem;
+}
+
+.main-content {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.scanner-section, 
+.dashboard-section,
+.profile-section,
+.admin-section {
+    background: rgba(44, 62, 80, 0.85);
+    border-radius: 15px;
+    padding: 20px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+    width: 100%;
+}
+
+.section-title {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 15px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid var(--primary);
+}
+
+.section-title i {
+    font-size: 1.2rem;
+    color: var(--primary);
+}
+
+.section-title h2 {
+    font-size: 1.2rem;
+}
+
+.scanner-container {
+    position: relative;
+    width: 100%;
+    max-width: 400px;
+    margin: 0 auto;
+    aspect-ratio: 1;
+    background-color: #000;
+    border-radius: 10px;
+    overflow: hidden;
+    margin-bottom: 20px;
+}
+
+#video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.scanner-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(0deg, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.3) 50%, rgba(0,0,0,0.7) 100%);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    text-align: center;
+    padding: 15px;
+}
+
+.scanner-overlay i {
+    font-size: 3rem;
+    margin-bottom: 15px;
+    color: var(--primary);
+}
+
+.scanner-overlay p {
+    font-size: 0.9rem;
+}
+
+.scanner-controls {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 15px;
+    flex-wrap: wrap;
+}
+
+.btn {
+    padding: 10px 20px;
+    border-radius: 50px;
+    border: none;
+    font-weight: bold;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: all 0.3s ease;
+    font-size: 0.9rem;
+}
+
+.btn-primary {
+    background: var(--primary);
+    color: white;
+}
+
+.btn-success {
+    background: var(--success);
+    color: white;
+}
+
+.btn-danger {
+    background: var(--danger);
+    color: white;
+}
+
+.btn-secondary {
+    background: var(--secondary);
+    color: white;
+}
+
+.btn-admin {
+    background: var(--admin);
+    color: white;
+}
+
+.btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+}
+
+.btn:active {
+    transform: translateY(0);
+}
+
+.scanner-status {
+    background: rgba(0, 0, 0, 0.4);
+    padding: 12px;
+    border-radius: 10px;
+    margin-top: 15px;
+    text-align: center;
+    font-size: 0.9rem;
+}
+
+.presence-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    max-height: 400px;
+    overflow-y: auto;
+    padding-right: 8px;
+}
+
+.presence-card {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+    padding: 15px;
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    animation: fadeIn 0.5s ease;
+    border-left: 5px solid var(--success);
+}
+
+.presence-card.new {
+    border-left: 5px solid var(--warning);
+    background: rgba(243, 156, 18, 0.15);
+}
+
+.presence-card .avatar {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background: var(--primary);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.5rem;
+    font-weight: bold;
+    flex-shrink: 0;
+}
+
+.presence-card .info {
+    flex: 1;
+    min-width: 0;
+}
+
+.presence-card .name {
+    font-weight: bold;
+    font-size: 1rem;
+    margin-bottom: 3px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.presence-card .details {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    color: rgba(255, 255, 255, 0.8);
+    font-size: 0.8rem;
+    gap: 5px;
+}
+
+.stats-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 15px;
+    margin-bottom: 20px;
+}
+
+.stat-card {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+    padding: 15px;
+    text-align: center;
+}
+
+.stat-card i {
+    font-size: 1.5rem;
+}
+
+.stat-card .label {
+    font-size: 0.9rem;
+    margin-top: 5px;
+}
+
+.stat-card .number {
+    font-size: 1.8rem;
+    font-weight: bold;
+    margin: 8px 0;
+    color: var(--primary);
+}
+
+.notification {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    left: 20px;
+    background: var(--success);
+    color: white;
+    padding: 15px;
+    border-radius: 10px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    z-index: 1000;
+    transform: translateY(100px);
+    opacity: 0;
+    transition: all 0.5s ease;
+    max-width: 100%;
+}
+
+.notification.error {
+    background: var(--danger);
+}
+
+.notification.show {
+    transform: translateY(0);
+    opacity: 1;
+}
+
+.notification i {
+    font-size: 1.5rem;
+}
+
+.notification .content .title {
+    font-weight: bold;
+    font-size: 1rem;
+    margin-bottom: 3px;
+}
+
+.notification .content .message {
+    font-size: 0.9rem;
+}
+
+.profile-card {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+    padding: 20px;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.profile-avatar {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    background: var(--primary);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 2.5rem;
+    font-weight: bold;
+    margin: 0 auto 15px;
+}
+
+.profile-name {
+    font-size: 1.3rem;
+    font-weight: bold;
+    margin-bottom: 8px;
+}
+
+.profile-nik {
+    font-size: 0.9rem;
+    margin-bottom: 15px;
+}
+
+.profile-subjects h3 {
+    font-size: 1.1rem;
+    margin-bottom: 10px;
+}
+
+.subject-badge {
+    display: inline-block;
+    background: rgba(52, 152, 219, 0.2);
+    padding: 4px 12px;
+    border-radius: 50px;
+    margin: 4px;
+    border: 1px solid var(--primary);
+    font-size: 0.9rem;
+}
+
+.logout-btn {
+    margin-top: 15px;
+    width: 100%;
+}
+
+.nav-buttons {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 15px;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.page {
+    display: none;
+}
+
+.page.active {
+    display: block;
+}
+
+/* Login Page */
+.login-page {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding: 20px;
+}
+
+.login-container {
+    background: rgba(44, 62, 80, 0.95);
+    padding: 30px;
+    border-radius: 15px;
+    width: 100%;
+    max-width: 400px;
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
+    text-align: center;
+}
+
+.login-logo {
+    font-size: 2.5rem;
+    color: var(--primary);
+    margin-bottom: 15px;
+}
+
+.login-title {
+    font-size: 1.5rem;
+    margin-bottom: 20px;
+}
+
+.login-form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.login-form input, .login-form select {
+    padding: 12px;
+    border-radius: 5px;
+    border: none;
+    background: rgba(255, 255, 255, 0.1);
+    color: white;
+    font-size: 0.9rem;
+}
+
+/* PERUBAHAN: Menambahkan style untuk placeholder */
+.login-form input::placeholder {
+    color: rgba(255, 255, 255, 0.7);
+}
+
+.login-form button {
+    padding: 12px;
+    border-radius: 5px;
+    border: none;
+    background: var(--primary);
+    color: white;
+    font-size: 1rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.login-form button:hover {
+    background: #2980b9;
+}
+
+.login-error {
+    color: var(--danger);
+    margin-bottom: 10px;
+    display: none;
+    font-size: 0.9rem;
+}
+
+/* Admin Page */
+.admin-controls {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 15px;
+    flex-wrap: wrap;
+}
+
+.admin-presence-list {
+    max-height: 500px;
+    overflow-y: auto;
+}
+
+.admin-presence-card {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+    padding: 15px;
+    margin-bottom: 10px;
+}
+
+.admin-presence-header {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 8px;
+    flex-wrap: wrap;
+    gap: 5px;
+}
+
+.admin-presence-name {
+    font-weight: bold;
+    font-size: 1rem;
+}
+
+.admin-presence-class {
+    background: rgba(46, 204, 113, 0.2);
+    padding: 3px 8px;
+    border-radius: 10px;
+    font-size: 0.8rem;
+}
+
+.admin-presence-details {
+    display: flex;
+    justify-content: space-between;
+    color: rgba(255, 255, 255, 0.8);
+    font-size: 0.8rem;
+    flex-wrap: wrap;
+    gap: 5px;
+}
+
+/* Scanner Animation */
+.scanner-laser {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 3px;
+    background: rgba(255, 0, 0, 0.5);
+    box-shadow: 0 0 10px rgba(255, 0, 0, 0.8);
+    animation: scan 2s infinite linear;
+    z-index: 1;
+    display: none;
+}
+
+/* Admin QR Generator */
+.qr-generator-container {
+    margin: 20px 0;
+    background: rgba(255, 255, 255, 0.1);
+    padding: 20px;
+    border-radius: 10px;
+}
+
+.qr-controls {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 15px;
+    flex-wrap: wrap;
+}
+
+.qr-preview {
+    text-align: center;
+    margin: 20px 0;
+    padding: 20px;
+    background: rgba(0, 0, 0, 0.3);
+    border-radius: 10px;
+    display: none;
+}
+
+.qr-preview canvas {
+    background: white;
+    padding: 10px;
+    border-radius: 5px;
+    max-width: 100%;
+}
+
+.qr-class-name {
+    font-weight: bold;
+    margin: 15px 0 5px;
+    color: var(--warning);
+    font-size: 1.2rem;
+}
+
+.qr-download-section {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 15px;
+}
+
+/* Excel export section */
+.excel-export-container {
+    background: rgba(255, 255, 255, 0.1);
+    padding: 20px;
+    border-radius: 10px;
+    margin-top: 20px;
+}
+
+.date-range-selector {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-bottom: 15px;
+}
+
+.date-input {
+    padding: 10px;
+    border-radius: 5px;
+    border: none;
+    background: rgba(255, 255, 255, 0.1);
+    color: white;
+    flex: 1;
+    min-width: 150px;
+}
+
+.export-status {
+    margin-top: 15px;
+    padding: 10px;
+    border-radius: 5px;
+    text-align: center;
+    display: none;
+}
+
+.export-status.success {
+    background: rgba(46, 204, 113, 0.2);
+    border: 1px solid var(--success);
+    display: block;
+}
+
+.export-status.error {
+    background: rgba(231, 76, 60, 0.2);
+    border: 1px solid var(--danger);
+    display: block;
+}
+
+@keyframes scan {
+    0% {
+        top: 0;
+    }
+    50% {
+        top: 100%;
+    }
+    100% {
+        top: 0;
+    }
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}

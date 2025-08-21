@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistem Presensi Guru - Admin</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/responsive.css">
+    <script src="https://cdn.jsdelivr.net/npm/jsqr@1.4.0/dist/jsQR.min.js"></script>
+    <script src="https://cdn.rawgit.com/davidshimjs/qrcodejs/gh-pages/qrcode.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+</head>
+<body>
+    <!-- Halaman Login -->
+    <div id="login-page" class="login-page">
+        <div class="login-container">
+            <div class="login-logo">
+                <i class="fas fa-chalkboard-teacher"></i>
+            </div>
+            <h1 class="login-title">Login Presensi Guru</h1>
+            
+            <div class="login-form">
+                <!-- PERUBAHAN: Mengganti select dengan input text untuk NUPY -->
+                <input type="text" id="nik-input" placeholder="Masukkan NUPY" autocomplete="off" required>
+                <input type="password" id="password" placeholder="Password" autocomplete="off">
+                <button id="login-btn">Masuk</button>
+                <p id="login-error" class="login-error">NUPY atau password salah!</p>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Halaman Aplikasi (Awalnya tersembunyi) -->
+    <div id="app-container" class="container" style="display: none;">
+        <header>
+            <div class="logo">
+                <i class="fas fa-chalkboard-teacher"></i>
+                <h1>Presensi Guru</h1>
+            </div>
+            <div class="datetime">
+                <h2 id="current-date-time">Rabu, 9 Agustus 2023 - 14:30:45</h2>
+            </div>
+        </header>
+        
+        <div class="nav-buttons">
+            <button id="scanner-btn" class="btn btn-primary">
+                <i class="fas fa-qrcode"></i> Scanner Presensi
+            </button>
+            <button id="dashboard-btn" class="btn btn-secondary">
+                <i class="fas fa-tachometer-alt"></i> Dashboard
+            </button>
+            <button id="profile-btn" class="btn btn-secondary">
+                <i class="fas fa-user"></i> Profil
+            </button>
+            <button id="admin-btn" class="btn btn-admin" style="display: none;">
+                <i class="fas fa-user-shield"></i> Admin
+            </button>
+        </div>
+        
+        <!-- Halaman Scanner -->
+        <div id="scanner-page" class="page active">
+            <div class="scanner-section">
+                <div class="section-title">
+                    <i class="fas fa-qrcode"></i>
+                    <h2>Scan QR Code Kelas</h2>
+                </div>
+                
+                <div class="scanner-container">
+                    <video id="video" playsinline></video>
+                    <div class="scanner-laser" id="scanner-laser"></div>
+                    <div class="scanner-overlay">
+                        <i class="fas fa-camera"></i>
+                        <p>Arahkan kamera ke QR Code yang ada di kelas</p>
+                        <p class="scanner-hint">Pastikan QR code berada dalam area kotak</p>
+                    </div>
+                </div>
+                
+                <div class="scanner-controls">
+                    <button id="start-btn" class="btn btn-primary">
+                        <i class="fas fa-play"></i> Mulai Scan
+                    </button>
+                    <button id="stop-btn" class="btn btn-danger" disabled>
+                        <i class="fas fa-stop"></i> Stop
+                    </button>
+                </div>
+                
+                <div class="scanner-status">
+                    <p id="scanner-message">Kamera belum diaktifkan. Klik "Mulai Scan" untuk memulai.</p>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Halaman Dashboard -->
+        <div id="dashboard-page" class="page">
+            <div class="dashboard-section">
+                <div class="section-title">
+                    <i class="fas fa-tachometer-alt"></i>
+                    <h2>Dashboard Presensi</h2>
+                </div>
+                
+                <div class="stats-container">
+                    <div class="stat-card">
+                        <i class="fas fa-user-check"></i>
+                        <div class="label">Presensi Hari Ini</div>
+                        <div class="number" id="today-presence">0</div>
+                    </div>
+                    <div class="stat-card">
+                        <i class="fas fa-chalkboard"></i>
+                        <div class="label">Kelas Diajar</div>
+                        <div class="number" id="classes-taught">0</div>
+                    </div>
+                    <div class="stat-card">
+                        <i class="fas fa-clock"></i>
+                        <div class="label">Jam Mengajar</div>
+                        <div class="number" id="teaching-hours">0</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="dashboard-section">
+                <div class="section-title">
+                    <i class="fas fa-history"></i>
+                    <h2>Riwayat Presensi Terakhir</h2>
+                </div>
+                
+                <div class="presence-list" id="presence-list">
+                    <!-- Presence records will be added here dynamically -->
+                </div>
+            </div>
+        </div>
+        
+        <!-- Halaman Profil -->
+        <div id="profile-page" class="page">
+            <div class="profile-section">
+                <div class="section-title">
+                    <i class="fas fa-user"></i>
+                    <h2>Profil Guru</h2>
+                </div>
+                
+                <div class="profile-card">
+                    <div class="profile-avatar" id="profile-avatar">A</div>
+                    <h2 class="profile-name" id="profile-name">Nama Guru</h2>
+                    <div id="profile-nik">NUPY: 12345678</div>
+                    
+                    <div class="profile-subjects">
+                        <h3>Mata Pelajaran</h3>
+                        <div id="subject-badges">
+                            <!-- Subject badges will be added here -->
+                        </div>
+                    </div>
+                    
+                    <button id="logout-btn" class="btn btn-danger logout-btn">
+                        <i class="fas fa-sign-out-alt"></i> Keluar
+                    </button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Halaman Admin -->
+        <div id="admin-page" class="page">
+            <div class="admin-section">
+                <div class="section-title">
+                    <i class="fas fa-user-shield"></i>
+                    <h2>Admin Dashboard</h2>
+                </div>
+                
+                <div class="admin-controls">
+                    <button id="view-all-btn" class="btn btn-primary">
+                        <i class="fas fa-list"></i> Lihat Semua Presensi
+                    </button>
+                    <button id="view-today-btn" class="btn btn-success">
+                        <i class="fas fa-calendar-day"></i> Presensi Hari Ini
+                    </button>
+                    <button id="export-excel-btn" class="btn btn-secondary">
+                        <i class="fas fa-file-excel"></i> Export Excel
+                    </button>
+                </div>
+                
+                <div class="stats-container">
+                    <div class="stat-card">
+                        <i class="fas fa-users"></i>
+                        <div class="label">Total Guru</div>
+                        <div class="number" id="total-teachers">40</div>
+                    </div>
+                    <div class="stat-card">
+                        <i class="fas fa-user-check"></i>
+                        <div class="label">Hadir Hari Ini</div>
+                        <div class="number" id="present-today">0</div>
+                    </div>
+                    <div class="stat-card">
+                        <i class="fas fa-chalkboard-teacher"></i>
+                        <div class="label">Total Presensi</div>
+                        <div class="number" id="total-presence">0</div>
+                    </div>
+                </div>
+                
+                <div class="section-title">
+                    <i class="fas fa-history"></i>
+                    <h2>Daftar Presensi</h2>
+                </div>
+                
+                <div class="admin-presence-list" id="admin-presence-list">
+                    <!-- Admin presence records will be added here -->
+                </div>
+                
+                <!-- Section untuk Generate QR Code -->
+                <div class="qr-generator-container">
+                    <div class="section-title">
+                        <i class="fas fa-qrcode"></i>
+                        <h2>Generator QR Code Kelas</h2>
+                    </div>
+                    
+                    <div class="qr-controls">
+                        <select id="classroom-select" class="date-input">
+                            <option value="">Pilih Kelas</option>
+                            <!-- Options akan diisi secara dinamis -->
+                        </select>
+                        <button id="generate-qr-btn" class="btn btn-primary">
+                            <i class="fas fa-qrcode"></i> Generate QR
+                        </button>
+                    </div>
+                    
+                    <div class="qr-preview" id="qr-preview">
+                        <div class="qr-class-name" id="qr-class-name"></div>
+                        <canvas id="qr-canvas"></canvas>
+                        <div class="qr-download-section">
+                            <button id="download-qr-btn" class="btn btn-success">
+                                <i class="fas fa-download"></i> Download QR
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Section untuk Export Excel -->
+                <div class="excel-export-container">
+                    <div class="section-title">
+                        <i class="fas fa-file-excel"></i>
+                        <h2>Export Data Presensi</h2>
+                    </div>
+                    
+                    <div class="date-range-selector">
+                        <input type="date" id="start-date" class="date-input" placeholder="Tanggal Mulai">
+                        <input type="date" id="end-date" class="date-input" placeholder="Tanggal Akhir">
+                        <button id="generate-excel-btn" class="btn btn-success">
+                            <i class="fas fa-file-export"></i> Generate Excel
+                        </button>
+                    </div>
+                    
+                    <div class="export-status" id="export-status">
+                        Status export akan muncul di sini
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+     <div class="notification" id="notification">
+        <i class="fas fa-bell"></i>
+        <div class="content">
+            <div class="title">Presensi Terekam!</div>
+            <div class="message">Bpk. Ahmad terekam di Kelas 7A pukul 14:25:30</div>
+        </div>
+    </div>
+    
+    <script src="data/constants.js"></script>
+    <script src="js/utils.js"></script>
+    <script src="js/storage.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/scanner.js"></script>
+    <script src="js/admin.js"></script>
+    <script src="js/app.js"></script>
+</body>
+</html>

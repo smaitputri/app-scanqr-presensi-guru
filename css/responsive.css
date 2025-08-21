@@ -1,0 +1,67 @@
+/* Responsive Styles */
+@media (min-width: 768px) {
+    header {
+        flex-direction: row;
+        justify-content: space-between;
+        text-align: left;
+    }
+    
+    .logo {
+        margin-bottom: 0;
+    }
+    
+    .logo i {
+        font-size: 2.5rem;
+    }
+    
+    .logo h1 {
+        font-size: 1.8rem;
+    }
+    
+    .datetime h2 {
+        font-size: 1.2rem;
+    }
+    
+    .main-content {
+        flex-direction: row;
+        flex-wrap: wrap;
+    }
+    
+    .scanner-section {
+        flex: 1;
+        min-width: 300px;
+    }
+    
+    .dashboard-section {
+        flex: 2;
+        min-width: 400px;
+    }
+    
+    .profile-section {
+        flex: 1;
+        min-width: 300px;
+    }
+    
+    .section-title h2 {
+        font-size: 1.4rem;
+    }
+    
+    .section-title i {
+        font-size: 1.5rem;
+    }
+    
+    .btn {
+        padding: 12px 25px;
+        font-size: 1rem;
+    }
+    
+    .notification {
+        left: auto;
+        right: 30px;
+        max-width: 350px;
+    }
+    
+    .nav-buttons {
+        justify-content: flex-start;
+    }
+}
