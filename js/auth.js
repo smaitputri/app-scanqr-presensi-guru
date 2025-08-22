@@ -30,7 +30,7 @@ function updateProfile() {
     
     profileAvatar.textContent = currentTeacher.name.charAt(0);
     profileName.textContent = currentTeacher.name;
-    profileNik.textContent = `NUPY: ${currentTeacher.nik}`;
+    profileNik.textContent = `NIK: ${currentTeacher.nik}`;
     
     // Update mata pelajaran
     subjectBadges.innerHTML = '';
@@ -42,10 +42,10 @@ function updateProfile() {
     });
 }
 
-// PERUBAHAN: Fungsi untuk melakukan login dengan NIK
-function loginWithNIK(nik, password) {
+// Fungsi untuk melakukan login dengan 4 angka terakhir NIK
+function loginWithLastFourNIK(lastFourNIK, password) {
     // Cek jika login sebagai admin
-    if (nik === "admin" && password === ADMIN_NIK) {
+    if (lastFourNIK === "admin" && password === ADMIN_NIK) {
         return {
             id: 0,
             name: "Admin",
@@ -54,13 +54,27 @@ function loginWithNIK(nik, password) {
         };
     }
     
-    // Cari guru dengan NIK yang sesuai
-    const teacher = teachers.find(t => t.nik === nik);
+    // Cari guru dengan 4 angka terakhir NIK yang sesuai
+    const teacher = teachers.find(t => {
+        const teacherLastFour = t.nik.slice(-4);
+        return teacherLastFour === lastFourNIK;
+    });
     
-    // Jika guru ditemukan dan password sama dengan NIK
-    if (teacher && password === nik) {
+    // Jika guru ditemukan dan password sama dengan 4 angka terakhir NIK
+    if (teacher && password === lastFourNIK) {
         return teacher;
     }
     
     return null;
+}
+
+// Fungsi untuk mendapatkan 4 angka terakhir dari NIK guru
+function getTeachersWithLastFourNIK() {
+    const teachersWithShortNIK = teachers.map(teacher => {
+        return {
+            ...teacher,
+            lastFourNIK: teacher.nik.slice(-4)
+        };
+    });
+    return teachersWithShortNIK;
 }
