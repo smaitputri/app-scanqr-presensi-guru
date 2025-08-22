@@ -21,11 +21,10 @@
             <h1 class="login-title">Login Presensi Guru</h1>
             
             <div class="login-form">
-                <!-- PERUBAHAN: Mengganti select dengan input text untuk NUPY -->
-                <input type="text" id="nik-input" placeholder="Masukkan NUPY" autocomplete="off" required>
+                <input type="text" id="nik-input" placeholder="Masukkan NIK" autocomplete="off" required>
                 <input type="password" id="password" placeholder="Password" autocomplete="off">
                 <button id="login-btn">Masuk</button>
-                <p id="login-error" class="login-error">NUPY atau password salah!</p>
+                <p id="login-error" class="login-error">NIK atau password salah!</p>
             </div>
         </div>
     </div>
@@ -140,7 +139,7 @@
                 <div class="profile-card">
                     <div class="profile-avatar" id="profile-avatar">A</div>
                     <h2 class="profile-name" id="profile-name">Nama Guru</h2>
-                    <div id="profile-nik">NUPY: 12345678</div>
+                    <div id="profile-nik">NIK: 12345678</div>
                     
                     <div class="profile-subjects">
                         <h3>Mata Pelajaran</h3>
@@ -254,7 +253,7 @@
         </div>
     </div>
     
-     <div class="notification" id="notification">
+    <div class="notification" id="notification">
         <i class="fas fa-bell"></i>
         <div class="content">
             <div class="title">Presensi Terekam!</div>

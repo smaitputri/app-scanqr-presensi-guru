@@ -1,4 +1,4 @@
-// Fungsi untuk scan QR code
+// Fungsi untuk scan QR code (sekali saja)
 function scanQRCode() {
     if (!scanning) return;
     
@@ -27,23 +27,70 @@ function scanQRCode() {
                 // Tampilkan pesan sukses
                 scannerMessage.innerHTML = `<span style="color: #2ecc71;">Presensi berhasil! ${currentTeacher.name} di ${classroom}</span>`;
                 
-                // Berhenti scanning sementara
-                scanning = false;
-                setTimeout(() => {
-                    scannerMessage.textContent = "Arahkan kamera ke QR Code berikutnya...";
-                    scanning = true;
-                    scanQRCode();
-                }, 3000);
+                // PERUBAHAN: Berhenti scanning setelah berhasil
+                stopScanning();
             } else {
                 scannerMessage.innerHTML = `<span style="color: #e74c3c;">Kelas tidak dikenali: ${classroom}</span>`;
+                
+                // Tetap scanning untuk mencoba lagi
                 requestAnimationFrame(scanQRCode);
             }
         } else {
+            // Tetap scanning jika QR belum ditemukan
             requestAnimationFrame(scanQRCode);
         }
     } else {
+        // Tetap scanning jika video belum siap
         requestAnimationFrame(scanQRCode);
     }
+}
+
+// Fungsi untuk memulai scanning
+async function startScanning() {
+    try {
+        scannerMessage.textContent = "Mengakses kamera...";
+        
+        // Meminta izin untuk mengakses kamera
+        videoStream = await navigator.mediaDevices.getUserMedia({
+            video: { 
+                facingMode: "environment",
+                width: { ideal: 1280 },
+                height: { ideal: 720 }
+            }
+        });
+        
+        videoElement.srcObject = videoStream;
+        videoElement.play();
+        
+        startBtn.disabled = true;
+        stopBtn.disabled = false;
+        scanning = true;
+        scannerMessage.textContent = "Mengarahkan kamera ke QR Code...";
+        
+        // Tampilkan laser scanner
+        scannerLaser.style.display = 'block';
+        
+        // Memulai proses scanning (sekali saja)
+        scanQRCode();
+    } catch (err) {
+        console.error("Error accessing camera: ", err);
+        scannerMessage.innerHTML = `<span style="color: #e74c3c;">Gagal mengakses kamera: ${err.message}</span>`;
+        startBtn.disabled = false;
+    }
+}
+
+// Fungsi untuk menghentikan scanning
+function stopScanning() {
+    if (videoStream) {
+        videoStream.getTracks().forEach(track => track.stop());
+        videoStream = null;
+    }
+    
+    scanning = false;
+    startBtn.disabled = false;
+    stopBtn.disabled = true;
+    scannerMessage.textContent = "Scanning dihentikan. Klik 'Mulai Scan' untuk memulai kembali.";
+    scannerLaser.style.display = 'none';
 }
 
 // Tambahkan presensi ke daftar

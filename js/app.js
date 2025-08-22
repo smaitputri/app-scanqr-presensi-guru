@@ -8,8 +8,6 @@ let allPresences = [];
 // DOM Elements
 const loginPage = document.getElementById('login-page');
 const appContainer = document.getElementById('app-container');
-
-// PERUBAHAN: Mengganti teacherSelect dengan nikInput
 const nikInput = document.getElementById('nik-input');
 const passwordInput = document.getElementById('password');
 const loginBtn = document.getElementById('login-btn');
@@ -71,12 +69,20 @@ function initApp() {
     setInterval(updateDateTime, 1000);
     updateDateTime();
     
+    // Isi dropdown kelas untuk QR Generator
+    classrooms.forEach(classroom => {
+        const option = document.createElement('option');
+        option.value = classroom;
+        option.textContent = classroom;
+        classroomSelect.appendChild(option);
+    });
+    
     // Set tanggal untuk export Excel (default: hari ini)
     const today = new Date();
     startDateInput.value = today.toISOString().split('T')[0];
     endDateInput.value = today.toISOString().split('T')[0];
     
-    // PERUBAHAN: Event listener untuk input NIK
+    // Event listener untuk input NIK
     nikInput.addEventListener('input', function() {
         // Isi otomatis password dengan nilai NIK
         passwordInput.value = this.value;
@@ -93,7 +99,7 @@ function initApp() {
             return;
         }
         
-        // PERUBAHAN: Melakukan login dengan NIK
+        // Melakukan login dengan NIK
         const teacher = loginWithNIK(nik, password);
         
         if (teacher) {
@@ -153,6 +159,12 @@ function initApp() {
         }
     });
     
+    // PERUBAHAN: Event listener untuk scanner
+    startBtn.addEventListener('click', startScanning);
+    
+    // PERUBAHAN: Berhenti scanning
+    stopBtn.addEventListener('click', stopScanning);
+    
     // Event listener untuk tombol admin
     viewAllBtn.addEventListener('click', function() {
         updateAdminPresenceList(allPresences);
@@ -176,11 +188,11 @@ function initApp() {
     
     downloadQrBtn.addEventListener('click', downloadQRCode);
     
-// Event listener untuk export Excel
-generateExcelBtn.addEventListener('click', exportToExcel);
-
-// Event listener untuk navigasi
-scannerBtn.addEventListener('click', function() {
+    // Event listener untuk export Excel
+    generateExcelBtn.addEventListener('click', exportToExcel);
+    
+    // Navigasi halaman
+    scannerBtn.addEventListener('click', function() {
         scannerPage.classList.add('active');
         dashboardPage.classList.remove('active');
         profilePage.classList.remove('active');
@@ -248,54 +260,6 @@ scannerBtn.addEventListener('click', function() {
         updateAdminPresenceList(allPresences);
     });
     
-    // Event listener untuk scanner
-    startBtn.addEventListener('click', async () => {
-        try {
-            scannerMessage.textContent = "Mengakses kamera...";
-            
-            // Meminta izin untuk mengakses kamera
-            videoStream = await navigator.mediaDevices.getUserMedia({
-                video: { 
-                    facingMode: "environment",
-                    width: { ideal: 1280 },
-                    height: { ideal: 720 }
-                }
-            });
-            
-            videoElement.srcObject = videoStream;
-            videoElement.play();
-            
-            startBtn.disabled = true;
-            stopBtn.disabled = false;
-            scanning = true;
-            scannerMessage.textContent = "Mengarahkan kamera ke QR Code...";
-            
-            // Tampilkan laser scanner
-            scannerLaser.style.display = 'block';
-            
-            // Memulai proses scanning
-            scanQRCode();
-        } catch (err) {
-            console.error("Error accessing camera: ", err);
-            scannerMessage.innerHTML = `<span style="color: #e74c3c;">Gagal mengakses kamera: ${err.message}</span>`;
-            startBtn.disabled = false;
-        }
-    });
-    
-    // Berhenti scanning
-    stopBtn.addEventListener('click', () => {
-        if (videoStream) {
-            videoStream.getTracks().forEach(track => track.stop());
-            videoStream = null;
-        }
-        
-        scanning = false;
-        startBtn.disabled = false;
-        stopBtn.disabled = true;
-        scannerMessage.textContent = "Scanning dihentikan. Klik 'Mulai Scan' untuk memulai kembali.";
-        scannerLaser.style.display = 'none';
-    });
-    
     // Fungsi logout
     logoutBtn.addEventListener('click', function() {
         currentTeacher = null;
@@ -306,7 +270,7 @@ scannerBtn.addEventListener('click', function() {
         loginPage.style.display = 'flex';
         
         // Reset form login
-        teacherSelect.value = '';
+        nikInput.value = '';
         passwordInput.value = '';
         loginError.style.display = 'none';
     });
