@@ -82,39 +82,25 @@ function initApp() {
     startDateInput.value = today.toISOString().split('T')[0];
     endDateInput.value = today.toISOString().split('T')[0];
     
-    // PERUBAHAN: Event listener untuk input NIK (hanya angka, maksimal 4 digit)
+    // Event listener untuk input NIK
     nikInput.addEventListener('input', function() {
-        // Hanya izinkan input angka
-        this.value = this.value.replace(/\D/g, '');
-        
-        // Batasi maksimal 4 digit
-        if (this.value.length > 4) {
-            this.value = this.value.slice(0, 4);
-        }
-        
-        // Isi otomatis password dengan nilai yang sama
+        // Isi otomatis password dengan nilai NIK
         passwordInput.value = this.value;
     });
     
-    // PERUBAHAN: Event listener untuk tombol login
+    // Event listener untuk tombol login
     loginBtn.addEventListener('click', function() {
-        const lastFourNIK = nikInput.value.trim();
+        const nik = nikInput.value.trim();
         const password = passwordInput.value.trim();
         
-        if (!lastFourNIK || !password) {
-            loginError.textContent = "Masukkan 4 angka terakhir NUPY dan password!";
+        if (!nik || !password) {
+            loginError.textContent = "Masukkan NIK dan password!";
             loginError.style.display = 'block';
             return;
         }
         
-        if (lastFourNIK.length !== 4) {
-            loginError.textContent = "Masukkan 4 angka terakhir NUPY!";
-            loginError.style.display = 'block';
-            return;
-        }
-        
-        // Melakukan login dengan 4 angka terakhir NIK
-        const teacher = loginWithLastFourNIK(lastFourNIK, password);
+        // Melakukan login dengan NIK
+        const teacher = loginWithNIK(nik, password);
         
         if (teacher) {
             // Login berhasil
@@ -152,7 +138,7 @@ function initApp() {
             }
         } else {
             // Login gagal
-            loginError.textContent = "4 angka terakhir NUPY atau password salah!";
+            loginError.textContent = "NIK atau password salah!";
             loginError.style.display = 'block';
             passwordInput.value = '';
             passwordInput.focus();
@@ -173,10 +159,10 @@ function initApp() {
         }
     });
     
-    // Event listener untuk scanner
+    // PERUBAHAN: Event listener untuk scanner
     startBtn.addEventListener('click', startScanning);
     
-    // Berhenti scanning
+    // PERUBAHAN: Berhenti scanning
     stopBtn.addEventListener('click', stopScanning);
     
     // Event listener untuk tombol admin
