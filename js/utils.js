@@ -61,12 +61,5 @@ function showNotification(message, isError = false) {
     
     setTimeout(() => {
         notification.classList.remove('show');
-        
-        // Setelah notifikasi selesai, reset scanner untuk scan berikutnya
-        if (!isError) {
-            setTimeout(() => {
-                scannerMessage.textContent = "Kamera siap untuk scan berikutnya. Klik 'Mulai Scan' untuk memulai.";
-            }, 1000);
-        }
     }, 5000);
 }

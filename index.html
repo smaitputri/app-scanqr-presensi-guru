@@ -21,7 +21,8 @@
             <h1 class="login-title">Login Presensi Guru</h1>
             
             <div class="login-form">
-                <input type="text" id="nik-input" placeholder="Masukkan NUPY" autocomplete="off" required>
+                <!-- PERUBAHAN: Mengganti select dengan input text untuk NIK -->
+                <input type="text" id="nik-input" placeholder="Masukkan NIK" autocomplete="off" required>
                 <input type="password" id="password" placeholder="Password" autocomplete="off">
                 <button id="login-btn">Masuk</button>
                 <p id="login-error" class="login-error">NIK atau password salah!</p>
@@ -102,6 +103,16 @@
                         <i class="fas fa-user-check"></i>
                         <div class="label">Presensi Hari Ini</div>
                         <div class="number" id="today-presence">0</div>
+                    </div>
+                    <div class="stat-card">
+                        <i class="fas fa-chalkboard"></i>
+                        <div class="label">Kelas Diajar</div>
+                        <div class="number" id="classes-taught">0</div>
+                    </div>
+                    <div class="stat-card">
+                        <i class="fas fa-clock"></i>
+                        <div class="label">Jam Mengajar</div>
+                        <div class="number" id="teaching-hours">0</div>
                     </div>
                 </div>
             </div>

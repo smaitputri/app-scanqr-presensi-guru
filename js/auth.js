@@ -41,3 +41,26 @@ function updateProfile() {
         subjectBadges.appendChild(badge);
     });
 }
+
+// PERUBAHAN: Fungsi untuk melakukan login dengan NIK
+function loginWithNIK(nik, password) {
+    // Cek jika login sebagai admin
+    if (nik === "admin" && password === ADMIN_NIK) {
+        return {
+            id: 0,
+            name: "Admin",
+            nik: ADMIN_NIK,
+            subjects: ["Administrator"]
+        };
+    }
+    
+    // Cari guru dengan NIK yang sesuai
+    const teacher = teachers.find(t => t.nik === nik);
+    
+    // Jika guru ditemukan dan password sama dengan NIK
+    if (teacher && password === nik) {
+        return teacher;
+    }
+    
+    return null;
+}
