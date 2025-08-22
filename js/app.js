@@ -102,13 +102,13 @@ function initApp() {
         const password = passwordInput.value.trim();
         
         if (!lastFourNIK || !password) {
-            loginError.textContent = "Masukkan 4 angka terakhir NIK dan password!";
+            loginError.textContent = "Masukkan 4 angka terakhir NUPY dan password!";
             loginError.style.display = 'block';
             return;
         }
         
         if (lastFourNIK.length !== 4) {
-            loginError.textContent = "Masukkan 4 angka terakhir NIK!";
+            loginError.textContent = "Masukkan 4 angka terakhir NUPY!";
             loginError.style.display = 'block';
             return;
         }
@@ -152,7 +152,7 @@ function initApp() {
             }
         } else {
             // Login gagal
-            loginError.textContent = "4 angka terakhir NIK atau password salah!";
+            loginError.textContent = "4 angka terakhir NUPY atau password salah!";
             loginError.style.display = 'block';
             passwordInput.value = '';
             passwordInput.focus();
