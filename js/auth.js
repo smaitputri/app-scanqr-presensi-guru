@@ -30,7 +30,7 @@ function updateProfile() {
     
     profileAvatar.textContent = currentTeacher.name.charAt(0);
     profileName.textContent = currentTeacher.name;
-    profileNik.textContent = `NIK: ${currentTeacher.nik}`;
+    profileNupy.textContent = `NUPY: ${currentTeacher.nupy}`;
     
     // Update mata pelajaran
     subjectBadges.innerHTML = '';
@@ -42,23 +42,23 @@ function updateProfile() {
     });
 }
 
-// PERUBAHAN: Fungsi untuk melakukan login dengan NIK
-function loginWithNIK(nik, password) {
+// PERUBAHAN: Fungsi untuk melakukan login dengan NUPY
+function loginWithNUPY(nupy, password) {
     // Cek jika login sebagai admin
-    if (nik === "admin" && password === ADMIN_NIK) {
+    if (nupy === "admin" && password === ADMIN_NUPY) {
         return {
             id: 0,
             name: "Admin",
-            nik: ADMIN_NIK,
+            nupy: ADMIN_NUPY,
             subjects: ["Administrator"]
         };
     }
     
-    // Cari guru dengan NIK yang sesuai
-    const teacher = teachers.find(t => t.nik === nik);
+    // Cari guru dengan NUPY yang sesuai
+    const teacher = teachers.find(t => t.nupy === nupy);
     
-    // Jika guru ditemukan dan password sama dengan NIK
-    if (teacher && password === nik) {
+    // Jika guru ditemukan dan password sama dengan NUPY
+    if (teacher && password === nupy) {
         return teacher;
     }
     

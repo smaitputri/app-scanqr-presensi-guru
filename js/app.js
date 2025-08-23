@@ -8,8 +8,8 @@ let allPresences = [];
 // DOM Elements
 const loginPage = document.getElementById('login-page');
 const appContainer = document.getElementById('app-container');
-// PERUBAHAN: Mengganti teacherSelect dengan nikInput
-const nikInput = document.getElementById('nik-input');
+// PERUBAHAN: Mengganti teacherSelect dengan nupyInput
+const nupyInput = document.getElementById('nupy-input');
 const passwordInput = document.getElementById('password');
 const loginBtn = document.getElementById('login-btn');
 const loginError = document.getElementById('login-error');
@@ -28,7 +28,7 @@ const currentDateTimeElement = document.getElementById('current-date-time');
 
 const profileAvatar = document.getElementById('profile-avatar');
 const profileName = document.getElementById('profile-name');
-const profileNik = document.getElementById('profile-nik');
+const profileNupy = document.getElementById('profile-nupy');
 const subjectBadges = document.getElementById('subject-badges');
 const logoutBtn = document.getElementById('logout-btn');
 
@@ -75,25 +75,25 @@ function initApp() {
     startDateInput.value = today.toISOString().split('T')[0];
     endDateInput.value = today.toISOString().split('T')[0];
     
-    // PERUBAHAN: Event listener untuk input NIK
-    nikInput.addEventListener('input', function() {
-        // Isi otomatis password dengan nilai NIK
+    // PERUBAHAN: Event listener untuk input NUPY
+    nupyInput.addEventListener('input', function() {
+        // Isi otomatis password dengan nilai NUPY
         passwordInput.value = this.value;
     });
     
     // Event listener untuk tombol login
     loginBtn.addEventListener('click', function() {
-        const nik = nikInput.value.trim();
+        const nupy = nupyInput.value.trim();
         const password = passwordInput.value.trim();
         
-        if (!nik || !password) {
-            loginError.textContent = "Masukkan NIK dan password!";
+        if (!nupy || !password) {
+            loginError.textContent = "Masukkan NUPY dan password!";
             loginError.style.display = 'block';
             return;
         }
         
-        // PERUBAHAN: Melakukan login dengan NIK
-        const teacher = loginWithNIK(nik, password);
+        // PERUBAHAN: Melakukan login dengan NUPY
+        const teacher = loginWithNUPY(nupy, password);
         
         if (teacher) {
             // Login berhasil
@@ -119,7 +119,7 @@ function initApp() {
             appContainer.style.display = 'block';
             
             // Reset form login
-            nikInput.value = '';
+            nupyInput.value = '';
             passwordInput.value = '';
             loginError.style.display = 'none';
             
@@ -131,7 +131,7 @@ function initApp() {
             }
         } else {
             // Login gagal
-            loginError.textContent = "NIK atau password salah!";
+            loginError.textContent = "NUPY atau password salah!";
             loginError.style.display = 'block';
             passwordInput.value = '';
             passwordInput.focus();
@@ -145,8 +145,8 @@ function initApp() {
         }
     });
     
-    // Event listener untuk tekan enter di input NIK
-    nikInput.addEventListener('keypress', function(e) {
+    // Event listener untuk tekan enter di input NUPY
+    nupyInput.addEventListener('keypress', function(e) {
         if (e.key === 'Enter') {
             loginBtn.click();
         }
