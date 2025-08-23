@@ -28,15 +28,7 @@ function scanQRCode() {
                 scannerMessage.innerHTML = `<span style="color: #2ecc71;">Presensi berhasil! ${currentTeacher.name} di ${classroom}</span>`;
                 
                 // Berhenti scanning setelah berhasil
-                scanning = false;
-                if (videoStream) {
-                    videoStream.getTracks().forEach(track => track.stop());
-                    videoStream = null;
-                }
-                
-                startBtn.disabled = false;
-                stopBtn.disabled = true;
-                scannerLaser.style.display = 'none';
+                stopScanning();
             } else {
                 scannerMessage.innerHTML = `<span style="color: #e74c3c;">Kelas tidak dikenali: ${classroom}</span>`;
                 
@@ -190,12 +182,7 @@ function updateStats() {
     
     // Hitung presensi hari ini
     const todayPresences = teacherPresences.filter(p => p.date === today && p.teacherId === currentTeacher.id);
-    const todayClasses = [...new Set(todayPresences.map(p => p.classroom))];
     
-    // Hitung jam mengajar (asumsi 2 jam per kelas)
-    const teachingHours = todayClasses.length * 2;
-    
+    // PERUBAHAN: Hanya menampilkan jumlah presensi hari ini
     todayPresenceElement.textContent = todayPresences.length;
-    classesTaughtElement.textContent = todayClasses.length;
-    teachingHoursElement.textContent = teachingHours;
 }

@@ -21,8 +21,6 @@ const scannerLaser = document.getElementById('scanner-laser');
 const presenceList = document.getElementById('presence-list');
 const notification = document.getElementById('notification');
 const todayPresenceElement = document.getElementById('today-presence');
-const classesTaughtElement = document.getElementById('classes-taught');
-const teachingHoursElement = document.getElementById('teaching-hours');
 const currentDateTimeElement = document.getElementById('current-date-time');
 
 const profileAvatar = document.getElementById('profile-avatar');
