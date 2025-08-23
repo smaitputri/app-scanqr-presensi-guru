@@ -10,10 +10,6 @@
         margin-bottom: 0;
     }
     
-    .logo i {
-        font-size: 2.5rem;
-    }
-    
     .logo h1 {
         font-size: 1.8rem;
     }
@@ -63,5 +59,88 @@
     
     .nav-buttons {
         justify-content: flex-start;
+    }
+    
+    .login-logo-container {
+        margin-right: 40px;
+        margin-bottom: 0;
+    }
+    
+    .login-page {
+        flex-direction: row;
+    }
+}
+
+@media (max-width: 767px) {
+    .logo-wrapper {
+        flex-direction: row;
+        justify-content: center;
+        margin-bottom: 20px;
+    }
+    
+    .logo-text {
+        font-size: 1.4rem;
+    }
+    
+    .login-container {
+        padding: 20px;
+    }
+    
+    .scanner-container {
+        max-width: 300px;
+    }
+    
+    .stats-container {
+        grid-template-columns: 1fr;
+    }
+    
+    .admin-controls, .qr-controls, .date-range-selector {
+        flex-direction: column;
+    }
+    
+    .date-input {
+        width: 100%;
+    }
+}
+
+/* High-resolution displays */
+@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+    .logo-image {
+        filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
+    }
+}
+
+/* Dark mode preference */
+@media (prefers-color-scheme: dark) {
+    :root {
+        --light: #2D2D2D;
+        --dark: #E6E2D6;
+    }
+    
+    body {
+        background: linear-gradient(135deg, #2D2D2D 0%, #3D3D3D 100%);
+        color: #E6E2D6;
+    }
+    
+    .scanner-section, 
+    .dashboard-section,
+    .profile-section,
+    .admin-section,
+    .stat-card,
+    .profile-card,
+    .login-container,
+    .qr-generator-container,
+    .excel-export-container,
+    .qr-preview {
+        background: rgba(45, 45, 45, 0.95);
+        border-color: rgba(166, 123, 91, 0.3);
+    }
+    
+    .login-form input, 
+    .login-form select,
+    .date-input {
+        background: rgba(45, 45, 45, 0.8);
+        color: #E6E2D6;
+        border-color: rgba(166, 123, 91, 0.5);
     }
 }
