@@ -1,21 +1,142 @@
-/* Responsive Styles */
-@media (min-width: 768px) {
-    header {
-        flex-direction: row;
-        justify-content: space-between;
-        text-align: left;
+/* Mobile First Approach */
+@media (max-width: 767px) {
+    body {
+        padding: 12px;
     }
     
-    .logo {
-        margin-bottom: 0;
+    .login-container {
+        padding: 24px 20px;
     }
     
-    .logo h1 {
-        font-size: 1.8rem;
+    .logo-image {
+        height: 100px;
     }
     
-    .datetime h2 {
+    .logo-text {
+        font-size: 1.3rem;
+    }
+    
+    .login-title {
         font-size: 1.2rem;
+    }
+    
+    .login-form input {
+        padding: 12px 14px;
+    }
+    
+    header .logo-image {
+        height: 60px;
+    }
+    
+    header h1 {
+        font-size: 1.2rem;
+    }
+    
+    .nav-buttons {
+        gap: 8px;
+        margin-bottom: 20px;
+    }
+    
+    .btn {
+        padding: 10px 12px;
+        font-size: 0.85rem;
+        min-width: 100px;
+    }
+    
+    .card {
+        padding: 18px;
+    }
+    
+    .section-title {
+        margin-bottom: 16px;
+    }
+    
+    .section-title h2 {
+        font-size: 1.1rem;
+    }
+    
+    .scanner-container {
+        max-width: 280px;
+    }
+    
+    .scanner-overlay i {
+        font-size: 2rem;
+    }
+    
+    .scanner-overlay p {
+        font-size: 0.85rem;
+    }
+    
+    .stats-container {
+        grid-template-columns: 1fr;
+        gap: 12px;
+    }
+    
+    .stat-card {
+        padding: 16px 12px;
+    }
+    
+    .stat-card i {
+        font-size: 1.6rem;
+    }
+    
+    .stat-card .number {
+        font-size: 1.6rem;
+    }
+    
+    .presence-card, .admin-presence-card {
+        padding: 14px;
+        gap: 12px;
+    }
+    
+    .presence-card .avatar {
+        width: 42px;
+        height: 42px;
+        font-size: 1.2rem;
+    }
+    
+    .profile-avatar {
+        width: 84px;
+        height: 84px;
+        font-size: 2rem;
+    }
+    
+    .profile-name {
+        font-size: 1.2rem;
+    }
+    
+    .admin-controls, .qr-controls, .date-range-selector {
+        flex-direction: column;
+    }
+    
+    .input-field {
+        width: 100%;
+    }
+    
+    .notification {
+        left: 12px;
+        right: 12px;
+        bottom: 12px;
+        padding: 14px;
+    }
+}
+
+/* Tablet Styles */
+@media (min-width: 768px) and (max-width: 1023px) {
+    body {
+        padding: 20px;
+    }
+    
+    .login-container {
+        padding: 32px 28px;
+    }
+    
+    .nav-buttons {
+        justify-content: flex-start;
+    }
+    
+    .btn {
+        flex: none;
     }
     
     .main-content {
@@ -23,124 +144,98 @@
         flex-wrap: wrap;
     }
     
-    .scanner-section {
+    .scanner-section, .dashboard-section, .profile-section {
         flex: 1;
         min-width: 300px;
     }
     
-    .dashboard-section {
+    .admin-section {
         flex: 2;
-        min-width: 400px;
+        min-width: 600px;
     }
     
-    .profile-section {
-        flex: 1;
-        min-width: 300px;
+    .stats-container {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+/* Desktop Styles */
+@media (min-width: 1024px) {
+    header {
+        flex-direction: row;
+        justify-content: space-between;
+        text-align: left;
     }
     
-    .section-title h2 {
-        font-size: 1.4rem;
+    header .logo {
+        margin-bottom: 0;
     }
     
-    .section-title i {
-        font-size: 1.5rem;
+    header h1 {
+        font-size: 1.6rem;
     }
     
-    .btn {
-        padding: 12px 25px;
-        font-size: 1rem;
-    }
-    
-    .notification {
-        left: auto;
-        right: 30px;
-        max-width: 350px;
+    .datetime h2 {
+        font-size: 1.1rem;
     }
     
     .nav-buttons {
         justify-content: flex-start;
     }
     
-    /* PERBAIKAN: Halaman login responsif di tengah */
-    .login-page {
+    .btn {
+        flex: none;
+        padding: 12px 20px;
+        font-size: 0.95rem;
+    }
+    
+    .main-content {
         flex-direction: row;
-        align-items: center;
-        justify-content: center;
-        gap: 40px;
-        padding: 40px 20px;
+        flex-wrap: wrap;
     }
     
-    .login-logo-container {
-        margin: 0;
+    .scanner-section, .dashboard-section, .profile-section {
         flex: 1;
-        max-width: 400px;
-        display: flex;
-        justify-content: center;
+        min-width: 320px;
     }
     
-    .login-container {
-        margin: 0;
-        flex: 1;
-        max-width: 400px;
-    }
-    
-    .logo-wrapper {
-        flex-direction: column;
-        text-align: center;
-    }
-}
-
-@media (max-width: 767px) {
-    .logo-wrapper {
-        flex-direction: row;
-        justify-content: center;
-        margin-bottom: 20px;
-        align-items: center;
-        gap: 10px;
-    }
-    
-    .logo-text {
-        font-size: 1.4rem;
-    }
-    
-    .login-container {
-        padding: 20px;
-        width: 100%;
-        max-width: 400px;
-    }
-    
-    .scanner-container {
-        max-width: 300px;
+    .admin-section {
+        flex: 2;
+        min-width: 650px;
     }
     
     .stats-container {
-        grid-template-columns: 1fr;
+        grid-template-columns: repeat(3, 1fr);
     }
     
-    .admin-controls, .qr-controls, .date-range-selector {
-        flex-direction: column;
-    }
-    
-    .date-input {
-        width: 100%;
-    }
-    
-    /* PERBAIKAN: Halaman login mobile di tengah */
     .login-page {
-        flex-direction: column;
-        padding: 20px;
+        flex-direction: row;
+        align-items: center;
         justify-content: center;
+        gap: 50px;
+        padding: 40px 20px;
     }
     
-    .login-logo-container {
-        margin-bottom: 30px;
-        width: 100%;
+    .login-logo {
+        margin: 0;
+        flex: 1;
+        max-width: 400px;
         display: flex;
+        flex-direction: column;
         justify-content: center;
+        align-items: center;
     }
     
-    .logo-wrapper {
-        flex-direction: column;
+    .login-container {
+        margin: 0;
+        flex: 1;
+        max-width: 400px;
+    }
+    
+    .notification {
+        left: auto;
+        right: 30px;
+        max-width: 350px;
     }
 }
 
@@ -154,65 +249,31 @@
 /* Dark mode preference */
 @media (prefers-color-scheme: dark) {
     :root {
-        --light: #2D2D2D;
-        --dark: #E6E2D6;
+        --light: #2D3748;
+        --gray-light: #4A5568;
+        --gray: #718096;
+        --text-dark: #E2E8F0;
     }
     
     body {
-        background: linear-gradient(135deg, #2D2D2D 0%, #3D3D3D 100%);
-        color: #E6E2D6;
+        background: linear-gradient(135deg, #2D3748 0%, #1A202C 100%);
+        color: #E2E8F0;
     }
     
-    .scanner-section, 
-    .dashboard-section,
-    .profile-section,
-    .admin-section,
-    .stat-card,
-    .profile-card,
-    .login-container,
-    .qr-generator-container,
-    .excel-export-container,
-    .qr-preview {
-        background: rgba(45, 45, 45, 0.95);
-        border-color: rgba(166, 123, 91, 0.3);
+    .card, .stat-card, .login-container, 
+    .qr-preview, .export-status, .input-field {
+        background: rgba(45, 55, 72, 0.95);
+        color: #E2E8F0;
     }
     
-    .login-form input, 
-    .login-form select,
-    .date-input {
-        background: rgba(45, 45, 45, 0.8);
-        color: #E6E2D6;
-        border-color: rgba(166, 123, 91, 0.5);
-    }
-}
-
-/* PERBAIKAN TAMBAHAN: Memastikan halaman login selalu di tengah */
-.login-page {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 100vh;
-    width: 100%;
-    position: relative;
-}
-
-.login-logo-container, 
-.login-container {
-    transition: all 0.3s ease;
-}
-
-/* Untuk layar yang sangat kecil */
-@media (max-width: 480px) {
-    .login-container {
-        padding: 15px;
+    .login-form input, .input-field {
+        background: rgba(45, 55, 72, 0.8);
+        color: #E2E8F0;
+        border-color: #4A5568;
     }
     
-    .logo-text {
-        font-size: 1.2rem;
-    }
-    
-    .login-title {
-        font-size: 1.3rem;
+    .presence-card, .admin-presence-card {
+        background: rgba(74, 111, 195, 0.15);
     }
 }
 
@@ -223,15 +284,44 @@
         min-height: auto;
     }
     
-    .login-logo-container {
+    .login-logo {
         margin-bottom: 15px;
     }
     
     .logo-image {
-        height: 40px;
+        height: 100px;
     }
     
     .logo-text {
         font-size: 1.1rem;
+    }
+    
+    .login-form {
+        gap: 12px;
+    }
+    
+    .login-form input {
+        padding: 10px 12px;
+    }
+}
+
+/* Very small devices */
+@media (max-width: 340px) {
+    .btn {
+        min-width: 80px;
+        padding: 8px 10px;
+        font-size: 0.8rem;
+    }
+    
+    .scanner-container {
+        max-width: 240px;
+    }
+    
+    .stat-card {
+        padding: 14px 10px;
+    }
+    
+    .stat-card .number {
+        font-size: 1.4rem;
     }
 }
