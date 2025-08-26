@@ -61,6 +61,9 @@ const endDateInput = document.getElementById('end-date');
 const generateExcelBtn = document.getElementById('generate-excel-btn');
 const exportStatus = document.getElementById('export-status');
 
+// PERUBAHAN: Elemen untuk pemilihan mata pelajaran
+const confirmSubjectBtn = document.getElementById('confirm-subject-btn');
+
 // Inisialisasi aplikasi
 function initApp() {
     // Update waktu secara real-time
@@ -92,7 +95,7 @@ function initApp() {
         const password = passwordInput.value.trim();
         
         if (!nupy || !password) {
-            loginError.textContent = "Masukkan NUPY dan password!";
+            loginError.textContent = "Masukkan 4 angka terakhir NUPY dan password!";
             loginError.style.display = 'block';
             return;
         }
@@ -156,6 +159,9 @@ function initApp() {
             loginBtn.click();
         }
     });
+    
+    // PERUBAHAN: Event listener untuk tombol konfirmasi mata pelajaran
+    confirmSubjectBtn.addEventListener('click', confirmSubjectAndStartScan);
     
     // Event listener untuk scanner
     startBtn.addEventListener('click', startScanning);

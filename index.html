@@ -61,36 +61,52 @@
         
         <main class="main-content">
             <!-- Halaman Scanner -->
-            <section id="scanner-page" class="page active">
-                <div class="scanner-section card">
+        <div id="scanner-page" class="page active">
+            <div class="scanner-section">
+                <div class="section-title">
+                    <i class="fas fa-qrcode"></i>
+                    <h2>Scan QR Code Kelas</h2>
+                </div>
+                
+                <!-- PERUBAHAN: Tambahan dropdown pemilihan mapel -->
+                <div class="subject-selection" id="subject-selection" style="margin-bottom: 20px; display: none;">
                     <div class="section-title">
-                        <i class="fas fa-qrcode"></i>
-                        <h2>Scan QR Code Kelas</h2>
+                        <i class="fas fa-book"></i>
+                        <h2>Pilih Mata Pelajaran</h2>
                     </div>
-                    
-                    <div class="scanner-container">
-                        <video id="video" playsinline></video>
-                        <div class="scanner-laser" id="scanner-laser"></div>
-                        <div class="scanner-overlay">
-                            <i class="fas fa-camera"></i>
-                            <p>Arahkan kamera ke QR Code yang ada di kelas</p>
-                        </div>
-                    </div>
-                    
-                    <div class="scanner-controls">
-                        <button id="start-btn" class="btn btn-primary">
-                            <i class="fas fa-play"></i> Mulai Scan
-                        </button>
-                        <button id="stop-btn" class="btn btn-danger" disabled>
-                            <i class="fas fa-stop"></i> Stop
-                        </button>
-                    </div>
-                    
-                    <div class="scanner-status">
-                        <p id="scanner-message">Kamera belum diaktifkan. Klik "Mulai Scan" untuk memulai.</p>
+                    <select id="subject-select" class="date-input" style="width: 100%;">
+                        <option value="">-- Pilih Mata Pelajaran --</option>
+                        <!-- Options akan diisi secara dinamis -->
+                    </select>
+                    <button id="confirm-subject-btn" class="btn btn-success" style="margin-top: 10px; width: 100%;">
+                        <i class="fas fa-check"></i> Konfirmasi Mata Pelajaran
+                    </button>
+                </div>
+                
+                <div class="scanner-container">
+                    <video id="video" playsinline></video>
+                    <div class="scanner-laser" id="scanner-laser"></div>
+                    <div class="scanner-overlay">
+                        <i class="fas fa-camera"></i>
+                        <p>Arahkan kamera ke QR Code yang ada di kelas</p>
+                        <p class="scanner-hint">Pastikan QR code berada dalam area kotak</p>
                     </div>
                 </div>
-            </section>
+                
+                <div class="scanner-controls">
+                    <button id="start-btn" class="btn btn-primary">
+                        <i class="fas fa-play"></i> Mulai Scan
+                    </button>
+                    <button id="stop-btn" class="btn btn-danger" disabled>
+                        <i class="fas fa-stop"></i> Stop
+                    </button>
+                </div>
+                
+                <div class="scanner-status">
+                    <p id="scanner-message">Kamera belum diaktifkan. Klik "Mulai Scan" untuk memulai.</p>
+                </div>
+            </div>
+        </div>
             
             <!-- Halaman Dashboard -->
             <section id="dashboard-page" class="page">

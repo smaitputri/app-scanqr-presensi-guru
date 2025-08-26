@@ -1,3 +1,45 @@
+// Variabel untuk menyimpan mata pelajaran yang dipilih
+let selectedSubject = '';
+
+// Fungsi untuk menampilkan pilihan mata pelajaran
+function showSubjectSelection() {
+    const subjectSelection = document.getElementById('subject-selection');
+    const subjectSelect = document.getElementById('subject-select');
+    
+    // Kosongkan dropdown mata pelajaran
+    subjectSelect.innerHTML = '<option value="">-- Pilih Mata Pelajaran --</option>';
+    
+    // Isi dropdown dengan mata pelajaran guru
+    if (currentTeacher && currentTeacher.subjects) {
+        currentTeacher.subjects.forEach(subject => {
+            const option = document.createElement('option');
+            option.value = subject;
+            option.textContent = subject;
+            subjectSelect.appendChild(option);
+        });
+    }
+    
+    // Tampilkan section pemilihan mata pelajaran
+    subjectSelection.style.display = 'block';
+    
+    // Sembunyikan scanner container sementara
+    document.querySelector('.scanner-container').style.display = 'none';
+    document.querySelector('.scanner-controls').style.display = 'none';
+    scannerMessage.textContent = "Silakan pilih mata pelajaran terlebih dahulu";
+}
+
+// Fungsi untuk menyembunyikan pilihan mata pelajaran
+function hideSubjectSelection() {
+    const subjectSelection = document.getElementById('subject-selection');
+    
+    // Sembunyikan section pemilihan mata pelajaran
+    subjectSelection.style.display = 'none';
+    
+    // Tampilkan kembali scanner container
+    document.querySelector('.scanner-container').style.display = 'block';
+    document.querySelector('.scanner-controls').style.display = 'flex';
+}
+
 // Fungsi untuk scan QR code (sekali saja)
 function scanQRCode() {
     if (!scanning) return;
@@ -22,7 +64,7 @@ function scanQRCode() {
             // Cek apakah kelas valid
             if (classrooms.includes(classroom)) {
                 // Tambahkan presensi untuk guru yang login
-                addPresenceRecord(currentTeacher, classroom);
+                addPresenceRecord(currentTeacher, classroom, selectedSubject);
                 
                 // Tampilkan pesan sukses
                 scannerMessage.innerHTML = `<span style="color: #2ecc71;">Presensi berhasil! ${currentTeacher.name} di ${classroom}</span>`;
@@ -47,6 +89,29 @@ function scanQRCode() {
 
 // Fungsi untuk memulai scanning
 async function startScanning() {
+    // PERUBAHAN: Tampilkan pilihan mata pelajaran terlebih dahulu
+    showSubjectSelection();
+}
+
+// Fungsi untuk mengonfirmasi pilihan mata pelajaran dan memulai scan
+function confirmSubjectAndStartScan() {
+    const subjectSelect = document.getElementById('subject-select');
+    selectedSubject = subjectSelect.value;
+    
+    if (!selectedSubject) {
+        showNotification("Silakan pilih mata pelajaran terlebih dahulu", true);
+        return;
+    }
+    
+    // Sembunyikan pilihan mata pelajaran
+    hideSubjectSelection();
+    
+    // Mulai proses scanning
+    startCameraAndScan();
+}
+
+// Fungsi untuk memulai kamera dan scanning
+async function startCameraAndScan() {
     try {
         scannerMessage.textContent = "Mengakses kamera...";
         
@@ -91,10 +156,14 @@ function stopScanning() {
     stopBtn.disabled = true;
     scannerMessage.textContent = "Scanning dihentikan. Klik 'Mulai Scan' untuk memulai kembali.";
     scannerLaser.style.display = 'none';
+    
+    // Reset pilihan mata pelajaran
+    selectedSubject = '';
+    document.getElementById('subject-select').value = '';
 }
 
 // Tambahkan presensi ke daftar
-async function addPresenceRecord(teacher, classroom) {
+async function addPresenceRecord(teacher, classroom, subject) {
     const now = new Date();
     const dateString = formatDate(now);
     const timeString = formatTime(now);
@@ -107,7 +176,7 @@ async function addPresenceRecord(teacher, classroom) {
         date: dateString,
         time: timeString,
         timestamp: now.getTime(),
-        subjects: teacher.subjects.join(", ")
+        subjects: subject // PERUBAHAN: Hanya satu mata pelajaran yang dipilih
     };
     
     // Simpan ke array guru
@@ -134,7 +203,7 @@ async function addPresenceRecord(teacher, classroom) {
     
     // Tampilkan notifikasi
     if (success) {
-        showNotification(`${teacher.name} terekam di ${classroom} pukul ${timeString}`);
+        showNotification(`${teacher.name} terekam di ${classroom} untuk mapel ${subject} pukul ${timeString}`);
     }
 }
 
@@ -164,6 +233,7 @@ function updatePresenceList() {
                 <div class="name">${presence.teacherName}</div>
                 <div class="details">
                     <div class="classroom">${presence.classroom}</div>
+                    <div class="subject">${presence.subjects}</div>
                     <div class="date">${presence.date}</div>
                     <div class="time">${presence.time}</div>
                 </div>
