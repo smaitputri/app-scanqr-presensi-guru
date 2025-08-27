@@ -9,7 +9,7 @@
     }
     
     .logo-image {
-        height: 130px; /* Diperbesar dari 110px menjadi 130px */
+        height: 200px; /* Diperbesar dari 110px menjadi 130px */
         width: auto; /* Memastikan proporsi tetap terjaga */
         max-width: 100%; /* Agar tidak melebihi container */
     }

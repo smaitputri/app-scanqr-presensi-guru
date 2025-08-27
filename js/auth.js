@@ -45,11 +45,11 @@ function updateProfile() {
 // PERUBAHAN: Fungsi untuk melakukan login dengan NUPY
 function loginWithNUPY(nupy, password) {
     // Cek jika login sebagai admin
-    if (nupy === "admin" && password === ADMIN_NUPY) {
+    if (nupy === "admin" && password === ADMIN_nupy) {
         return {
             id: 0,
             name: "Admin",
-            nupy: ADMIN_NUPY,
+            nupy: ADMIN_nupy,
             subjects: ["Administrator"]
         };
     }
