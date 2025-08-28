@@ -1,48 +1,6 @@
 // Variabel untuk menyimpan mata pelajaran yang dipilih
 let selectedSubject = '';
 
-// Fungsi untuk menentukan jam ke berdasarkan range waktu
-function getJamPelajaran(waktu) {
-    // Parse waktu format HH:MM:SS atau HH:MM
-    const timeParts = waktu.split(':');
-    const jam = parseInt(timeParts[0]);
-    const menit = parseInt(timeParts[1]);
-    
-    // PERBAIKAN: Konversi ke menit sejak 00:00 untuk akurasi yang lebih baik
-    const totalMenit = (jam * 60) + menit;
-    
-    console.log('Waktu:', waktu, 'Jam:', jam, 'Menit:', menit, 'Total Menit:', totalMenit);
-    
-    // PERBAIKAN: Gunakan total menit untuk perbandingan yang akurat
-    // 07.30 - 08.10 Jam ke-1 (450 - 490 menit)
-    if (totalMenit >= 450 && totalMenit < 490) return 1;
-    
-    // 08.10 - 08.50 Jam ke-2 (490 - 530 menit)
-    if (totalMenit >= 490 && totalMenit < 530) return 2;
-    
-    // 08.50 - 09.30 Jam ke-3 (530 - 570 menit)
-    if (totalMenit >= 530 && totalMenit < 570) return 3;
-    
-    // 09.30 - 10.10 Jam ke-4 (570 - 610 menit)
-    if (totalMenit >= 570 && totalMenit < 610) return 4;
-    
-    // 10.40 - 11.15 Jam ke-5 (640 - 675 menit)
-    if (totalMenit >= 640 && totalMenit < 675) return 5;
-    
-    // 11.15 - 11.50 Jam ke-6 (675 - 710 menit)
-    if (totalMenit >= 675 && totalMenit < 710) return 6;
-    
-    // 11.50 - 12.25 Jam ke-7 (710 - 745 menit)
-    if (totalMenit >= 710 && totalMenit < 745) return 7;
-    
-    // 12.25 - 13.00 Jam ke-8 (745 - 780 menit)
-    if (totalMenit >= 745 && totalMenit < 780) return 8;
-    
-    console.log('Waktu di luar jam pelajaran:', waktu, 'Total Menit:', totalMenit);
-    return 0; // Di luar jam pelajaran
-}
-
-
 // Fungsi untuk menampilkan pilihan mata pelajaran
 function showSubjectSelection() {
     const subjectSelection = document.getElementById('subject-selection');
@@ -210,17 +168,6 @@ async function addPresenceRecord(teacher, classroom, subject) {
     const dateString = formatDate(now);
     const timeString = formatTime(now);
     
-    // Tentukan jam pelajaran berdasarkan waktu
-    const jamPelajaran = getJamPelajaran(timeString);
-    
-    console.log('Presensi:', {
-        teacher: teacher.name,
-        classroom,
-        subject,
-        time: timeString,
-        jamPelajaran
-    });
-    
     // Buat record presensi
     const presenceRecord = {
         teacherId: teacher.id,
@@ -229,8 +176,7 @@ async function addPresenceRecord(teacher, classroom, subject) {
         date: dateString,
         time: timeString,
         timestamp: now.getTime(),
-        subjects: subject,
-        jamPelajaran: jamPelajaran
+        subjects: subject // PERUBAHAN: Hanya satu mata pelajaran yang dipilih
     };
     
     // Simpan ke array guru
@@ -255,19 +201,11 @@ async function addPresenceRecord(teacher, classroom, subject) {
         updateAdminPresenceList(allPresences);
     }
     
-    // Tampilkan notifikasi dengan informasi jam pelajaran
-    let jamInfo = "";
-    if (jamPelajaran > 0) {
-        jamInfo = ` pada Jam ke-${jamPelajaran}`;
-    } else {
-        jamInfo = " (di luar jam pelajaran)";
-    }
-    
+    // Tampilkan notifikasi
     if (success) {
-        showNotification(`${teacher.name} terekam di ${classroom} untuk mapel ${subject}${jamInfo} pukul ${timeString}`);
+        showNotification(`${teacher.name} terekam di ${classroom} untuk mapel ${subject} pukul ${timeString}`);
     }
 }
-
 
 // Update daftar presensi
 function updatePresenceList() {
@@ -289,9 +227,6 @@ function updatePresenceList() {
             presenceCard.classList.add('new');
         }
         
-        // PERUBAHAN: Tambahkan informasi jam pelajaran
-        const jamInfo = presence.jamPelajaran > 0 ? `Jam ke-${presence.jamPelajaran}` : "Di luar jam";
-        
         presenceCard.innerHTML = `
             <div class="avatar">${presence.teacherName.charAt(0)}</div>
             <div class="info">
@@ -299,7 +234,6 @@ function updatePresenceList() {
                 <div class="details">
                     <div class="classroom">${presence.classroom}</div>
                     <div class="subject">${presence.subjects}</div>
-                    <div class="jam-pelajaran">${jamInfo}</div>
                     <div class="date">${presence.date}</div>
                     <div class="time">${presence.time}</div>
                 </div>
@@ -319,6 +253,6 @@ function updateStats() {
     // Hitung presensi hari ini
     const todayPresences = teacherPresences.filter(p => p.date === today && p.teacherId === currentTeacher.id);
     
-    // Hanya menampilkan jumlah presensi hari ini
+    // PERUBAHAN: Hanya menampilkan jumlah presensi hari ini
     todayPresenceElement.textContent = todayPresences.length;
 }

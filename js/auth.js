@@ -8,19 +8,6 @@ async function sendToGoogleSheets(presenceRecord) {
         formData.append('date', presenceRecord.date);
         formData.append('time', presenceRecord.time);
         formData.append('subjects', presenceRecord.subjects);
-        formData.append('jamPelajaran', presenceRecord.jamPelajaran || 0); // Pastikan selalu ada nilai
-        // Tambahkan label untuk kolom "Jam ke" agar mudah dibaca di Google Sheet
-        const jamLabel = (presenceRecord.jamPelajaran && presenceRecord.jamPelajaran > 0)
-            ? `Jam ke-${presenceRecord.jamPelajaran}`
-            : 'Di luar jam';
-        formData.append('jam_ke', jamLabel);
-        
-        console.log('Mengirim data ke Google Sheets:', {
-            teacher: presenceRecord.teacherName,
-            classroom: presenceRecord.classroom,
-            time: presenceRecord.time,
-            jamPelajaran: presenceRecord.jamPelajaran
-        });
         
         const response = await fetch(GOOGLE_SCRIPT_URL, {
             method: 'POST',
@@ -36,7 +23,6 @@ async function sendToGoogleSheets(presenceRecord) {
         return false;
     }
 }
-
 
 // Update profil guru
 function updateProfile() {
@@ -56,14 +42,14 @@ function updateProfile() {
     });
 }
 
-// Fungsi untuk melakukan login dengan NUPY
+// PERUBAHAN: Fungsi untuk melakukan login dengan NUPY
 function loginWithNUPY(nupy, password) {
     // Cek jika login sebagai admin
-    if (nupy === "admin" && password === ADMIN_NUPY) {
+    if (nupy === "admin" && password === ADMIN_nupy) {
         return {
             id: 0,
             name: "Admin",
-            nupy: ADMIN_NUPY,
+            nupy: ADMIN_nupy,
             subjects: ["Administrator"]
         };
     }
