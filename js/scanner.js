@@ -1,39 +1,32 @@
 // Variabel untuk menyimpan mata pelajaran yang dipilih
 let selectedSubject = '';
 
-// Fungsi untuk menentukan jam ke berdasarkan waktu
+// Fungsi untuk menentukan jam ke berdasarkan range waktu
 function getJamPelajaran(waktu) {
-    const jam = parseInt(waktu.split(':')[0]);
-    const menit = parseInt(waktu.split(':')[1]);
-    const totalMenit = jam * 60 + menit;
+    // Parse waktu format HH:MM:SS atau HH:MM
+    const timeParts = waktu.split(':');
+    const jam = parseInt(timeParts[0]);
+    const menit = parseInt(timeParts[1]);
     
-    // PERBAIKAN: Jam pelajaran berdasarkan waktu dengan kondisi yang benar
-    // 07.30 - 08.10 Jam ke-1 (07:30 - 08:10)
-    if (totalMenit >= 450 && totalMenit < 490) return 1;
+    // Konversi ke format HH.MM untuk memudahkan perbandingan
+    const waktuDecimal = jam + (menit / 100);
     
-    // 08.10 - 08.50 Jam ke-2 (08:10 - 08:50)
-    if (totalMenit >= 490 && totalMenit < 530) return 2;
+    console.log('Waktu:', waktu, 'Decimal:', waktuDecimal.toFixed(2));
     
-    // 08.50 - 09.30 Jam ke-3 (08:50 - 09:30)
-    if (totalMenit >= 530 && totalMenit < 570) return 3;
+    // PERBAIKAN: Gunakan range waktu sesuai data yang diminta
+    if (waktuDecimal >= 7.30 && waktuDecimal < 8.10) return 1;    // 07.30 - 08.10 Jam ke-1
+    if (waktuDecimal >= 8.10 && waktuDecimal < 8.50) return 2;    // 08.10 - 08.50 Jam ke-2
+    if (waktuDecimal >= 8.50 && waktuDecimal < 9.30) return 3;    // 08.50 - 09.30 Jam ke-3
+    if (waktuDecimal >= 9.30 && waktuDecimal < 10.10) return 4;   // 09.30 - 10.10 Jam ke-4
+    if (waktuDecimal >= 10.40 && waktuDecimal < 11.15) return 5;  // 10.40 - 11.15 Jam ke-5
+    if (waktuDecimal >= 11.15 && waktuDecimal < 11.50) return 6;  // 11.15 - 11.50 Jam ke-6
+    if (waktuDecimal >= 11.50 && waktuDecimal < 12.25) return 7;  // 11.50 - 12.25 Jam ke-7
+    if (waktuDecimal >= 12.25 && waktuDecimal < 13.00) return 8;  // 12.25 - 13.00 Jam ke-8
     
-    // 09.30 - 10.10 Jam ke-4 (09:30 - 10:10)
-    if (totalMenit >= 570 && totalMenit < 610) return 4;
-    
-    // 10.40 - 11.15 Jam ke-5 (10:40 - 11:15)
-    if (totalMenit >= 640 && totalMenit < 675) return 5;
-    
-    // 11.15 - 11.50 Jam ke-6 (11:15 - 11:50)
-    if (totalMenit >= 675 && totalMenit < 710) return 6;
-    
-    // 11.50 - 12.25 Jam ke-7 (11:50 - 12:25)
-    if (totalMenit >= 710 && totalMenit < 745) return 7;
-    
-    // 12.25 - 13.00 Jam ke-8 (12:25 - 13:00)
-    if (totalMenit >= 745 && totalMenit < 780) return 8;
-    
+    console.log('Waktu di luar jam pelajaran:', waktu);
     return 0; // Di luar jam pelajaran
 }
+
 
 // Fungsi untuk menampilkan pilihan mata pelajaran
 function showSubjectSelection() {
@@ -202,8 +195,16 @@ async function addPresenceRecord(teacher, classroom, subject) {
     const dateString = formatDate(now);
     const timeString = formatTime(now);
     
-    // PERUBAHAN: Tentukan jam pelajaran berdasarkan waktu
+    // Tentukan jam pelajaran berdasarkan waktu
     const jamPelajaran = getJamPelajaran(timeString);
+    
+    console.log('Presensi:', {
+        teacher: teacher.name,
+        classroom,
+        subject,
+        time: timeString,
+        jamPelajaran
+    });
     
     // Buat record presensi
     const presenceRecord = {
@@ -213,8 +214,8 @@ async function addPresenceRecord(teacher, classroom, subject) {
         date: dateString,
         time: timeString,
         timestamp: now.getTime(),
-        subjects: subject, // Hanya satu mata pelajaran yang dipilih
-        jamPelajaran: jamPelajaran // PERUBAHAN: Tambahkan jam pelajaran
+        subjects: subject,
+        jamPelajaran: jamPelajaran
     };
     
     // Simpan ke array guru
@@ -251,6 +252,7 @@ async function addPresenceRecord(teacher, classroom, subject) {
         showNotification(`${teacher.name} terekam di ${classroom} untuk mapel ${subject}${jamInfo} pukul ${timeString}`);
     }
 }
+
 
 // Update daftar presensi
 function updatePresenceList() {
