@@ -39,14 +39,16 @@ function doPost(e) {
     // Format time menjadi HH:mm (ambil jam dan menit)
     var formattedTime = '';
     try {
-      var tParts = (data.time || '').toString().split(':');
+      // Normalisasi pemisah waktu: ganti '.' atau spasi dengan ':'
+      var rawTime = (data.time || '').toString().trim().replace(/\./g, ':').replace(/\s+/g, '');
+      var tParts = rawTime.split(':');
       if (tParts.length >= 2) {
         formattedTime = pad(tParts[0],2) + ':' + pad(tParts[1],2);
       } else {
-        formattedTime = data.time.toString();
+        formattedTime = rawTime;
       }
     } catch (e) {
-      formattedTime = data.time.toString();
+      formattedTime = (data.time || '').toString();
     }
 
     // Hitung nama hari dari tanggal (tanggal dikirim dalam dd/mm/yyyy)
@@ -93,6 +95,12 @@ function doPost(e) {
     var lastRow = sheet.getLastRow();
     var range = sheet.getRange(lastRow, 1, 1, 8);
     sheet.getRange(lastRow, 1).setNumberFormat("yyyy-mm-dd hh:mm:ss");
+    // Pastikan kolom Waktu (kolom ke-6) diformat sebagai jam:menit
+    try {
+      sheet.getRange(lastRow, 6).setNumberFormat("HH:mm");
+    } catch (e) {
+      // jika gagal, abaikan
+    }
     range.setHorizontalAlignment("center");
     range.setVerticalAlignment("middle");
     range.setBorder(true, true, true, true, true, true);
