@@ -6,10 +6,12 @@ async function sendToGoogleSheets(presenceRecord) {
     formData.append('teacher', presenceRecord.teacherName);
     formData.append('classroom', presenceRecord.classroom);
     formData.append('date', presenceRecord.date); // Format: dd/mm/yyyy
-    // Pastikan time dikirim sebagai HH:mm untuk konsistensi dengan Apps Script
-    const timeParts = (presenceRecord.time || '').split(':');
-    const formattedTime = timeParts.length >= 2 ? `${timeParts[0].padStart(2,'0')}:${timeParts[1].padStart(2,'0')}` : presenceRecord.time;
-    formData.append('time', formattedTime);
+  // Pastikan time dikirim sebagai HH:mm untuk konsistensi dengan Apps Script
+  // Normalisasi: ganti '.' dengan ':' (karena toLocaleTimeString('id-ID') menghasilkan '23.53.51')
+  const rawTime = (presenceRecord.time || '').toString().trim().replace(/\./g, ':').replace(/\s+/g, '');
+  const tParts = rawTime.split(':');
+  const formattedTime = tParts.length >= 2 ? `${tParts[0].padStart(2,'0')}:${tParts[1].padStart(2,'0')}` : rawTime;
+  formData.append('time', formattedTime);
     formData.append('subjects', presenceRecord.subjects);
     formData.append('jamPelajaran', presenceRecord.jamPelajaran || 0);
 
@@ -38,8 +40,11 @@ async function sendToGoogleSheets(presenceRecord) {
       teacher: presenceRecord.teacherName,
       classroom: presenceRecord.classroom,
       date: presenceRecord.date,
-      time: presenceRecord.time,
-      jamPelajaran: presenceRecord.jamPelajaran
+      time_sent: formattedTime,
+      original_time: presenceRecord.time,
+      hari: hariName,
+      jamPelajaran: presenceRecord.jamPelajaran,
+      jam_ke: jamLabel
     });
     
     const response = await fetch(GOOGLE_SCRIPT_URL, {
