@@ -590,13 +590,25 @@ header h1 {
     border-radius: var(--border-radius);
     box-shadow: var(--shadow);
     display: flex;
+    flex-direction: column;
+    justify-content: center;
     align-items: center;
-    gap: 12px;
+    text-align: center; /* Tambahkan ini untuk teks */
+    gap: 5px;
     z-index: 1000;
     transform: translateY(100px);
     opacity: 0;
     transition: var(--transition);
     max-width: 100%;
+}
+
+/* Jika ada elemen anak seperti button atau elemen inline lainnya */
+.notification > * {
+    text-align: center;
+    width: 100%; /* Agar elemen anak memenuhi lebar container */
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .notification.error {
@@ -612,10 +624,10 @@ header h1 {
     font-size: 1.5rem;
 }
 
-.notification .content .title {
+.notification .title {
     font-weight: 600;
     font-size: 1rem;
-    margin-bottom: 4px;
+    /* margin-bottom: 4px; */
 }
 
 .notification .content .message {
@@ -918,3 +930,5 @@ header h1 {
         #current-date-time {
             animation: fadeIn 0.8s ease-out;
         }
+
+        
