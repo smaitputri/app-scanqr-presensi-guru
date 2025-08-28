@@ -7,15 +7,30 @@ function getJamPelajaran(waktu) {
     const menit = parseInt(waktu.split(':')[1]);
     const totalMenit = jam * 60 + menit;
     
-    // Jam pelajaran berdasarkan waktu
-    if (totalMenit >= 450 && totalMenit < 490) return 1;    // 07:30 - 08:10
-    if (totalMenit >= 490 && totalMenit < 530) return 2;    // 08:10 - 08:50
-    if (totalMenit >= 530 && totalMenit < 570) return 3;    // 08:50 - 09:30
-    if (totalMenit >= 570 && totalMenit < 610) return 4;    // 09:30 - 10:10
-    if (totalMenit >= 640 && totalMenit < 675) return 5;    // 10:40 - 11:15
-    if (totalMenit >= 675 && totalMenit < 710) return 6;    // 11:15 - 11:50
-    if (totalMenit >= 710 && totalMenit < 745) return 7;    // 11:50 - 12:25
-    if (totalMenit >= 745 && totalMenit < 780) return 8;    // 12:25 - 13:00
+    // PERBAIKAN: Jam pelajaran berdasarkan waktu dengan kondisi yang benar
+    // 07.30 - 08.10 Jam ke-1 (07:30 - 08:10)
+    if (totalMenit >= 450 && totalMenit < 490) return 1;
+    
+    // 08.10 - 08.50 Jam ke-2 (08:10 - 08:50)
+    if (totalMenit >= 490 && totalMenit < 530) return 2;
+    
+    // 08.50 - 09.30 Jam ke-3 (08:50 - 09:30)
+    if (totalMenit >= 530 && totalMenit < 570) return 3;
+    
+    // 09.30 - 10.10 Jam ke-4 (09:30 - 10:10)
+    if (totalMenit >= 570 && totalMenit < 610) return 4;
+    
+    // 10.40 - 11.15 Jam ke-5 (10:40 - 11:15)
+    if (totalMenit >= 640 && totalMenit < 675) return 5;
+    
+    // 11.15 - 11.50 Jam ke-6 (11:15 - 11:50)
+    if (totalMenit >= 675 && totalMenit < 710) return 6;
+    
+    // 11.50 - 12.25 Jam ke-7 (11:50 - 12:25)
+    if (totalMenit >= 710 && totalMenit < 745) return 7;
+    
+    // 12.25 - 13.00 Jam ke-8 (12:25 - 13:00)
+    if (totalMenit >= 745 && totalMenit < 780) return 8;
     
     return 0; // Di luar jam pelajaran
 }
@@ -129,7 +144,7 @@ function confirmSubjectAndStartScan() {
     startCameraAndScan();
 }
 
-// Fungsi untuk memulai kamera и scanning
+// Fungsi untuk memulai kamera dan scanning
 async function startCameraAndScan() {
     try {
         scannerMessage.textContent = "Mengakses kamera...";
