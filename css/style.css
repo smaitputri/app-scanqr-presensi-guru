@@ -65,7 +65,7 @@ body {
 }
 
 .logo-image {
-    height: 180px; /* Dari 110px menjadi 140px */
+    height: 100px; /* Dari 110px menjadi 140px */
     width: auto;
     margin-bottom: 0px;
     display: block;
