@@ -30,10 +30,10 @@
         max-width: 100%;
     }
     
-    .logo-text {
+    /* .logo-text {
         font-size: 1.5rem;
         margin-top: 15px;
-    }
+    } */
     
     /* Kode lainnya tetap sama... */
 }
@@ -121,3 +121,72 @@
             font-size: 0.95rem !important;
         }
     }
+
+    /* Responsivitas untuk perangkat mobile datetime */
+        @media (max-width: 600px) {
+            #current-date-time {
+                font-size: 1.4rem;
+            }
+            
+            /* .datetime {
+                padding: 20px 25px;
+            } */
+        }
+        
+        @media (max-width: 400px) {
+            #current-date-time {
+                font-size: 1.2rem;
+            }
+        }
+
+/* Header: logo left and title aligned with date-time on small screens */
+@media (max-width: 600px) {
+    header {
+        display: flex !important;
+        flex-direction: row !important;
+        align-items: center !important;
+        justify-content: space-between !important;
+        padding: 12px 10px !important;
+        text-align: left !important;
+        gap: 12px;
+    }
+
+    header .logo {
+        display: flex !important;
+        align-items: center !important;
+        gap: 12px !important;
+        margin: 0;
+    }
+
+    header .logo-image {
+        height: 56px !important; /* lebih kecil agar sejajar */
+        width: auto !important;
+    }
+
+    header h1 {
+        font-size: 1.25rem !important; /* sedikit lebih besar agar sejajar */
+        margin: 0 !important;
+        line-height: 1 !important;
+        color: var(--primary) !important;
+        font-weight: 700 !important;
+    }
+
+    .datetime {
+        padding: 0 0px !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+    }
+
+    #current-date-time {
+        font-size: 0.95rem !important; /* ringkas agar pas */
+        text-align: center !important;
+        white-space: nowrap;
+    }
+
+    /* Ensure header contents align visually with card edges */
+    .container, header {
+        padding-left: 12px !important;
+        padding-right: 12px !important;
+    }
+}
