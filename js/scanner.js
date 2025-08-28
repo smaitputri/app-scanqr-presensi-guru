@@ -8,22 +8,37 @@ function getJamPelajaran(waktu) {
     const jam = parseInt(timeParts[0]);
     const menit = parseInt(timeParts[1]);
     
-    // Konversi ke format HH.MM untuk memudahkan perbandingan
-    const waktuDecimal = jam + (menit / 100);
+    // PERBAIKAN: Konversi ke menit sejak 00:00 untuk akurasi yang lebih baik
+    const totalMenit = (jam * 60) + menit;
     
-    console.log('Waktu:', waktu, 'Decimal:', waktuDecimal.toFixed(2));
+    console.log('Waktu:', waktu, 'Jam:', jam, 'Menit:', menit, 'Total Menit:', totalMenit);
     
-    // PERBAIKAN: Gunakan range waktu sesuai data yang diminta
-    if (waktuDecimal >= 7.30 && waktuDecimal < 8.10) return 1;    // 07.30 - 08.10 Jam ke-1
-    if (waktuDecimal >= 8.10 && waktuDecimal < 8.50) return 2;    // 08.10 - 08.50 Jam ke-2
-    if (waktuDecimal >= 8.50 && waktuDecimal < 9.30) return 3;    // 08.50 - 09.30 Jam ke-3
-    if (waktuDecimal >= 9.30 && waktuDecimal < 10.10) return 4;   // 09.30 - 10.10 Jam ke-4
-    if (waktuDecimal >= 10.40 && waktuDecimal < 11.15) return 5;  // 10.40 - 11.15 Jam ke-5
-    if (waktuDecimal >= 11.15 && waktuDecimal < 11.50) return 6;  // 11.15 - 11.50 Jam ke-6
-    if (waktuDecimal >= 11.50 && waktuDecimal < 12.25) return 7;  // 11.50 - 12.25 Jam ke-7
-    if (waktuDecimal >= 12.25 && waktuDecimal < 13.00) return 8;  // 12.25 - 13.00 Jam ke-8
+    // PERBAIKAN: Gunakan total menit untuk perbandingan yang akurat
+    // 07.30 - 08.10 Jam ke-1 (450 - 490 menit)
+    if (totalMenit >= 450 && totalMenit < 490) return 1;
     
-    console.log('Waktu di luar jam pelajaran:', waktu);
+    // 08.10 - 08.50 Jam ke-2 (490 - 530 menit)
+    if (totalMenit >= 490 && totalMenit < 530) return 2;
+    
+    // 08.50 - 09.30 Jam ke-3 (530 - 570 menit)
+    if (totalMenit >= 530 && totalMenit < 570) return 3;
+    
+    // 09.30 - 10.10 Jam ke-4 (570 - 610 menit)
+    if (totalMenit >= 570 && totalMenit < 610) return 4;
+    
+    // 10.40 - 11.15 Jam ke-5 (640 - 675 menit)
+    if (totalMenit >= 640 && totalMenit < 675) return 5;
+    
+    // 11.15 - 11.50 Jam ke-6 (675 - 710 menit)
+    if (totalMenit >= 675 && totalMenit < 710) return 6;
+    
+    // 11.50 - 12.25 Jam ke-7 (710 - 745 menit)
+    if (totalMenit >= 710 && totalMenit < 745) return 7;
+    
+    // 12.25 - 13.00 Jam ke-8 (745 - 780 menit)
+    if (totalMenit >= 745 && totalMenit < 780) return 8;
+    
+    console.log('Waktu di luar jam pelajaran:', waktu, 'Total Menit:', totalMenit);
     return 0; // Di luar jam pelajaran
 }
 
