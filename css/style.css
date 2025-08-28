@@ -391,6 +391,7 @@ header h1 {
     max-height: 400px;
     overflow-y: auto;
     padding-right: 8px;
+    color: var(--text-dark);
 }
 
 .presence-card, .admin-presence-card {
@@ -618,6 +619,16 @@ header h1 {
 }
 
 .notification .content .message {
+    font-size: 0.9rem;
+}
+
+.notification .notification-actions {
+    margin-left: auto;
+}
+
+.notification .notification-actions .btn {
+    padding: 8px 12px;
+    border-radius: 8px;
     font-size: 0.9rem;
 }
 

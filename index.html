@@ -293,11 +293,14 @@
         </main>
     </div>
     
-    <div class="notification" id="notification">
+    <div class="notification" id="notification" role="dialog" aria-live="polite" aria-atomic="true">
         <i class="fas fa-bell"></i>
         <div class="content">
             <div class="title">Presensi Terekam!</div>
             <div class="message">Bpk. Ahmad terekam di Kelas 7A pukul 14:25:30</div>
+        </div>
+        <div class="notification-actions">
+            <button id="notification-ok" class="btn btn-primary">OK</button>
         </div>
     </div>
     

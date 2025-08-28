@@ -55,17 +55,27 @@ function showNotification(message, isError = false) {
     }
     
     messageElement.textContent = message;
-    
     notification.classList.add('show');
-    
-    setTimeout(() => {
-        notification.classList.remove('show');
-        
-        // Setelah notifikasi selesai, reset scanner untuk scan berikutnya
-        if (!isError) {
-            setTimeout(() => {
-                scannerMessage.textContent = "Kamera siap untuk scan berikutnya. Klik 'Mulai Scan' untuk memulai.";
-            }, 1000);
-        }
-    }, 5000);
+
+    // Tidak menutup otomatis. User harus klik OK untuk menutup.
+    // Namun, tetap reset scanner status ketika notifikasi ditutup (lihat hideNotification)
 }
+
+// Sembunyikan notifikasi dan lakukan reset scanner jika diperlukan
+function hideNotification() {
+    if (!notification.classList.contains('show')) return;
+    notification.classList.remove('show');
+
+    // Setelah notifikasi selesai, reset scanner untuk scan berikutnya
+    setTimeout(() => {
+        scannerMessage.textContent = "Kamera siap untuk scan berikutnya. Klik 'Mulai Scan' untuk memulai.";
+    }, 300);
+}
+
+// Pasang event listener untuk tombol OK pada notifikasi
+window.addEventListener('load', () => {
+    const okBtn = document.getElementById('notification-ok');
+    if (okBtn) {
+        okBtn.addEventListener('click', hideNotification);
+    }
+});
