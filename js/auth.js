@@ -9,6 +9,11 @@ async function sendToGoogleSheets(presenceRecord) {
         formData.append('time', presenceRecord.time);
         formData.append('subjects', presenceRecord.subjects);
         formData.append('jamPelajaran', presenceRecord.jamPelajaran || 0); // Pastikan selalu ada nilai
+        // Tambahkan label untuk kolom "Jam ke" agar mudah dibaca di Google Sheet
+        const jamLabel = (presenceRecord.jamPelajaran && presenceRecord.jamPelajaran > 0)
+            ? `Jam ke-${presenceRecord.jamPelajaran}`
+            : 'Di luar jam';
+        formData.append('jam_ke', jamLabel);
         
         console.log('Mengirim data ke Google Sheets:', {
             teacher: presenceRecord.teacherName,
