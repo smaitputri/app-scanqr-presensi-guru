@@ -6,9 +6,33 @@ async function sendToGoogleSheets(presenceRecord) {
     formData.append('teacher', presenceRecord.teacherName);
     formData.append('classroom', presenceRecord.classroom);
     formData.append('date', presenceRecord.date); // Format: dd/mm/yyyy
-    formData.append('time', presenceRecord.time); // Format: hh:mm:ss (akan dipotong menjadi hh:mm)
+    // Pastikan time dikirim sebagai HH:mm untuk konsistensi dengan Apps Script
+    const timeParts = (presenceRecord.time || '').split(':');
+    const formattedTime = timeParts.length >= 2 ? `${timeParts[0].padStart(2,'0')}:${timeParts[1].padStart(2,'0')}` : presenceRecord.time;
+    formData.append('time', formattedTime);
     formData.append('subjects', presenceRecord.subjects);
     formData.append('jamPelajaran', presenceRecord.jamPelajaran || 0);
+
+    // Hitung nama hari dari field date (format dd/mm/yyyy)
+    let hariName = '';
+    try {
+      const dParts = presenceRecord.date.split('/');
+      if (dParts.length === 3) {
+        const d = parseInt(dParts[0], 10);
+        const m = parseInt(dParts[1], 10) - 1;
+        const y = parseInt(dParts[2], 10);
+        const dateObj = new Date(y, m, d);
+        const days = ['Minggu','Senin','Selasa','Rabu','Kamis','Jumat','Sabtu'];
+        hariName = days[dateObj.getDay()];
+      }
+    } catch (err) {
+      hariName = '';
+    }
+    formData.append('hari', hariName);
+
+    // Tambahkan label Jam ke (mis. "Jam ke-1" atau "") untuk keterbacaan di sheet
+    const jamLabel = (presenceRecord.jamPelajaran && presenceRecord.jamPelajaran > 0) ? `Jam ke-${presenceRecord.jamPelajaran}` : '';
+    formData.append('jam_ke', jamLabel);
     
     console.log('Mengirim data ke Google Sheets:', {
       teacher: presenceRecord.teacherName,
