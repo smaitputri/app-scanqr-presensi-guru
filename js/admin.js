@@ -19,12 +19,17 @@ function updateAdminPresenceList(presences) {
         const presenceCard = document.createElement('div');
         presenceCard.className = 'admin-presence-card';
         
+        // PERUBAHAN: Tambahkan informasi jam pelajaran
+        const jamInfo = presence.jamPelajaran > 0 ? `Jam ke-${presence.jamPelajaran}` : "Di luar jam";
+        
         presenceCard.innerHTML = `
             <div class="admin-presence-header">
                 <div class="admin-presence-name">${presence.teacherName}</div>
                 <div class="admin-presence-class">${presence.classroom}</div>
             </div>
             <div class="admin-presence-details">
+                <div>${presence.subjects}</div>
+                <div class="admin-presence-jam">${jamInfo}</div>
                 <div>${presence.date}</div>
                 <div>${presence.time}</div>
             </div>
@@ -91,19 +96,20 @@ function exportToExcel() {
     
     // Siapkan data untuk Excel
     const excelData = [
-        ["Nama Guru", "Kelas", "Tanggal", "Waktu", "Mata Pelajaran"]
+        ["Nama Guru", "Kelas", "Mata Pelajaran", "Jam Pelajaran", "Tanggal", "Waktu"] // PERUBAHAN: Tambah kolom Jam Pelajaran
     ];
     
     filteredPresences.forEach(presence => {
         const teacher = teachers.find(t => t.id === presence.teacherId);
-        const subjects = teacher ? teacher.subjects.join(", ") : "Tidak diketahui";
+        const jamPelajaran = presence.jamPelajaran > 0 ? `Jam ke-${presence.jamPelajaran}` : "Di luar jam";
         
         excelData.push([
             presence.teacherName,
             presence.classroom,
+            presence.subjects,
+            jamPelajaran, // PERUBAHAN: Tambahkan jam pelajaran
             presence.date,
-            presence.time,
-            subjects
+            presence.time
         ]);
     });
     

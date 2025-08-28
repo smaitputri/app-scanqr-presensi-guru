@@ -8,6 +8,7 @@ async function sendToGoogleSheets(presenceRecord) {
         formData.append('date', presenceRecord.date);
         formData.append('time', presenceRecord.time);
         formData.append('subjects', presenceRecord.subjects);
+        formData.append('jamPelajaran', presenceRecord.jamPelajaran); // PERUBAHAN: Tambahkan jam pelajaran
         
         const response = await fetch(GOOGLE_SCRIPT_URL, {
             method: 'POST',
@@ -42,14 +43,14 @@ function updateProfile() {
     });
 }
 
-// PERUBAHAN: Fungsi untuk melakukan login dengan NUPY
+// Fungsi untuk melakukan login dengan NUPY
 function loginWithNUPY(nupy, password) {
     // Cek jika login sebagai admin
-    if (nupy === "admin" && password === ADMIN_nupy) {
+    if (nupy === "admin" && password === ADMIN_NUPY) {
         return {
             id: 0,
             name: "Admin",
-            nupy: ADMIN_nupy,
+            nupy: ADMIN_NUPY,
             subjects: ["Administrator"]
         };
     }
