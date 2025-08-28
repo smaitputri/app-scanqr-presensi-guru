@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sistem Presensi Pergantian Jam GTK</title>
+    <title>Sistem Presensi Guru - Admin</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/responsive.css">
@@ -14,17 +14,14 @@
 <body>
     <!-- Halaman Login -->
     <div id="login-page" class="login-page">
-        <img src="images/logo-presensi-guru-1.png" alt="Logo Presensi Guru" class="logo-image">
         <div class="login-container">
-            
             <div class="login-logo">
-                
-                <!-- <h1 class="logo-text">Sistem Presensi Guru</h1> -->
+                <i class="fas fa-chalkboard-teacher"></i>
             </div>
+            <h1 class="login-title">Login Presensi Guru</h1>
             
             <div class="login-form">
-                <h2 class="login-title">Login Presensi Pergantian Jam GTK</h2>
-                <input type="text" id="nupy-input" placeholder="Masukkan 4 angka terakhir NUPY" autocomplete="off" required>
+                <input type="text" id="nupy-input" placeholder="Masukkan NUPY" autocomplete="off" required>
                 <input type="password" id="password" placeholder="Password" autocomplete="off">
                 <button id="login-btn">Masuk</button>
                 <p id="login-error" class="login-error">NUPY atau password salah!</p>
@@ -36,17 +33,17 @@
     <div id="app-container" class="container" style="display: none;">
         <header>
             <div class="logo">
-                <img src="images/logo-presensi-guru-1.png" alt="Logo Presensi Guru" class="logo-image">
-                <h1>Presensi GTK</h1>
+                <i class="fas fa-chalkboard-teacher"></i>
+                <h1>Presensi Guru</h1>
             </div>
             <div class="datetime">
                 <h2 id="current-date-time">Rabu, 9 Agustus 2023 - 14:30:45</h2>
             </div>
         </header>
         
-        <nav class="nav-buttons">
-            <button id="scanner-btn" class="btn btn-primary active">
-                <i class="fas fa-qrcode"></i> Scanner
+        <div class="nav-buttons">
+            <button id="scanner-btn" class="btn btn-primary">
+                <i class="fas fa-qrcode"></i> Scanner Presensi
             </button>
             <button id="dashboard-btn" class="btn btn-secondary">
                 <i class="fas fa-tachometer-alt"></i> Dashboard
@@ -57,10 +54,9 @@
             <button id="admin-btn" class="btn btn-admin" style="display: none;">
                 <i class="fas fa-user-shield"></i> Admin
             </button>
-        </nav>
+        </div>
         
-        <main class="main-content">
-            <!-- Halaman Scanner -->
+        <!-- Halaman Scanner -->
         <div id="scanner-page" class="page active">
             <div class="scanner-section">
                 <div class="section-title">
@@ -68,18 +64,40 @@
                     <h2>Scan QR Code Kelas</h2>
                 </div>
                 
-                <!-- PERUBAHAN: Tambahan dropdown pemilihan mapel -->
+                <!-- PERUBAHAN: Tambahan dropdown pemilihan mapel dan jam ke -->
                 <div class="subject-selection" id="subject-selection" style="margin-bottom: 20px; display: none;">
                     <div class="section-title">
                         <i class="fas fa-book"></i>
-                        <h2>Pilih Mata Pelajaran</h2>
+                        <h2>Pilih Mata Pelajaran dan Jam Ke</h2>
                     </div>
-                    <select id="subject-select" class="date-input" style="width: 100%;">
-                        <option value="">-- Pilih Mata Pelajaran --</option>
-                        <!-- Options akan diisi secara dinamis -->
-                    </select>
+                    
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 15px;">
+                        <div>
+                            <label for="subject-select" style="display: block; margin-bottom: 5px; font-weight: bold;">Mata Pelajaran</label>
+                            <select id="subject-select" class="date-input" style="width: 100%;">
+                                <option value="">-- Pilih Mata Pelajaran --</option>
+                                <!-- Options akan diisi secara dinamis -->
+                            </select>
+                        </div>
+                        
+                        <div>
+                            <label for="jamke-select" style="display: block; margin-bottom: 5px; font-weight: bold;">Jam Ke</label>
+                            <select id="jamke-select" class="date-input" style="width: 100%;">
+                                <option value="">-- Pilih Jam Ke --</option>
+                                <option value="1">Jam ke-1 (07.30 - 08.10)</option>
+                                <option value="2">Jam ke-2 (08.10 - 08.50)</option>
+                                <option value="3">Jam ke-3 (08.50 - 09.30)</option>
+                                <option value="4">Jam ke-4 (09.30 - 10.10)</option>
+                                <option value="5">Jam ke-5 (10.40 - 11.15)</option>
+                                <option value="6">Jam ke-6 (11.15 - 11.50)</option>
+                                <option value="7">Jam ke-7 (11.50 - 12.25)</option>
+                                <option value="8">Jam ke-8 (12.25 - 13.00)</option>
+                            </select>
+                        </div>
+                    </div>
+                    
                     <button id="confirm-subject-btn" class="btn btn-success" style="margin-top: 10px; width: 100%;">
-                        <i class="fas fa-check"></i> Konfirmasi Mata Pelajaran
+                        <i class="fas fa-check"></i> Konfirmasi dan Mulai Scan
                     </button>
                 </div>
                 
@@ -107,160 +125,159 @@
                 </div>
             </div>
         </div>
+        
+        <!-- Halaman Dashboard -->
+        <div id="dashboard-page" class="page">
+            <div class="dashboard-section">
+                <div class="section-title">
+                    <i class="fas fa-tachometer-alt"></i>
+                    <h2>Dashboard Presensi</h2>
+                </div>
+                
+                <div class="stats-container">
+                    <div class="stat-card">
+                        <i class="fas fa-user-check"></i>
+                        <div class="label">Presensi Hari Ini</div>
+                        <div class="number" id="today-presence">0</div>
+                    </div>
+                </div>
+            </div>
             
-            <!-- Halaman Dashboard -->
-            <section id="dashboard-page" class="page">
-                <div class="dashboard-section card">
-                    <div class="section-title">
-                        <i class="fas fa-tachometer-alt"></i>
-                        <h2>Dashboard Presensi</h2>
+            <div class="dashboard-section">
+                <div class="section-title">
+                    <i class="fas fa-history"></i>
+                    <h2>Riwayat Presensi Terakhir</h2>
+                </div>
+                
+                <div class="presence-list" id="presence-list">
+                    <!-- Presence records will be added here dynamically -->
+                </div>
+            </div>
+        </div>
+        
+        <!-- Halaman Profil -->
+        <div id="profile-page" class="page">
+            <div class="profile-section">
+                <div class="section-title">
+                    <i class="fas fa-user"></i>
+                    <h2>Profil Guru</h2>
+                </div>
+                
+                <div class="profile-card">
+                    <div class="profile-avatar" id="profile-avatar">A</div>
+                    <h2 class="profile-name" id="profile-name">Nama Guru</h2>
+                    <div id="profile-nupy">NUPY: 12345678</div>
+                    
+                    <div class="profile-subjects">
+                        <h3>Mata Pelajaran</h3>
+                        <div id="subject-badges">
+                            <!-- Subject badges will be added here -->
+                        </div>
                     </div>
                     
-                    <div class="stats-container">
-                        <div class="stat-card">
-                            <i class="fas fa-user-check"></i>
-                            <div class="label">Presensi Hari Ini</div>
-                            <div class="number" id="today-presence">0</div>
+                    <button id="logout-btn" class="btn btn-danger logout-btn">
+                        <i class="fas fa-sign-out-alt"></i> Keluar
+                    </button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Halaman Admin -->
+        <div id="admin-page" class="page">
+            <div class="admin-section">
+                <div class="section-title">
+                    <i class="fas fa-user-shield"></i>
+                    <h2>Admin Dashboard</h2>
+                </div>
+                
+                <div class="admin-controls">
+                    <button id="view-all-btn" class="btn btn-primary">
+                        <i class="fas fa-list"></i> Lihat Semua Presensi
+                    </button>
+                    <button id="view-today-btn" class="btn btn-success">
+                        <i class="fas fa-calendar-day"></i> Presensi Hari Ini
+                    </button>
+                    <button id="export-excel-btn" class="btn btn-secondary">
+                        <i class="fas fa-file-excel"></i> Export Excel
+                    </button>
+                </div>
+                
+                <div class="stats-container">
+                    <div class="stat-card">
+                        <i class="fas fa-users"></i>
+                        <div class="label">Total Guru</div>
+                        <div class="number" id="total-teachers">40</div>
+                    </div>
+                    <div class="stat-card">
+                        <i class="fas fa-user-check"></i>
+                        <div class="label">Hadir Hari Ini</div>
+                        <div class="number" id="present-today">0</div>
+                    </div>
+                    <div class="stat-card">
+                        <i class="fas fa-chalkboard-teacher"></i>
+                        <div class="label">Total Presensi</div>
+                        <div class="number" id="total-presence">0</div>
+                    </div>
+                </div>
+                
+                <div class="section-title">
+                    <i class="fas fa-history"></i>
+                    <h2>Daftar Presensi</h2>
+                </div>
+                
+                <div class="admin-presence-list" id="admin-presence-list">
+                    <!-- Admin presence records will be added here -->
+                </div>
+                
+                <!-- Section untuk Generate QR Code -->
+                <div class="qr-generator-container">
+                    <div class="section-title">
+                        <i class="fas fa-qrcode"></i>
+                        <h2>Generator QR Code Kelas</h2>
+                    </div>
+                    
+                    <div class="qr-controls">
+                        <select id="classroom-select" class="date-input">
+                            <option value="">Pilih Kelas</option>
+                            <!-- Options akan diisi secara dinamis -->
+                        </select>
+                        <button id="generate-qr-btn" class="btn btn-primary">
+                            <i class="fas fa-qrcode"></i> Generate QR
+                        </button>
+                    </div>
+                    
+                    <div class="qr-preview" id="qr-preview">
+                        <div class="qr-class-name" id="qr-class-name"></div>
+                        <canvas id="qr-canvas"></canvas>
+                        <div class="qr-download-section">
+                            <button id="download-qr-btn" class="btn btn-success">
+                                <i class="fas fa-download"></i> Download QR
+                            </button>
                         </div>
                     </div>
                 </div>
                 
-                <div class="dashboard-section card">
+                <!-- Section untuk Export Excel -->
+                <div class="excel-export-container">
                     <div class="section-title">
-                        <i class="fas fa-history"></i>
-                        <h2>Riwayat Presensi Terakhir</h2>
+                        <i class="fas fa-file-excel"></i>
+                        <h2>Export Data Presensi</h2>
                     </div>
                     
-                    <div class="presence-list" id="presence-list">
-                        <!-- Presence records will be added here dynamically -->
+                    <div class="date-range-selector">
+                        <input type="date" id="start-date" class="date-input" placeholder="Tanggal Mulai">
+                        <input type="date" id="end-date" class="date-input" placeholder="Tanggal Akhir">
+                        <button id="generate-excel-btn" class="btn btn-success">
+                            <i class="fas fa-file-export"></i> Generate Excel
+                        </button>
+                    </div>
+                    
+                    <div class="export-status" id="export-status">
+                        Status export akan muncul di sini
                     </div>
                 </div>
-            </section>
-            
-            <!-- Halaman Profil -->
-            <section id="profile-page" class="page">
-                <div class="profile-section card">
-                    <div class="section-title">
-                        <i class="fas fa-user"></i>
-                        <h2>Profil GTK</h2>
-                    </div>
-                    
-                    <div class="profile-content">
-                        <div class="profile-avatar" id="profile-avatar">A</div>
-                        <h2 class="profile-name" id="profile-name">Nama GTK</h2>
-                        <div id="profile-nupy">NUPY: 12345678</div>
-                        
-                        <div class="profile-subjects">
-                            <h3>Mata Pelajaran</h3>
-                            <div id="subject-badges">
-                                <!-- Subject badges will be added here -->
-                            </div>
-                        </div>
-                        
-                        <button id="logout-btn" class="btn btn-danger logout-btn">
-                            <i class="fas fa-sign-out-alt"></i> Keluar
-                        </button>
-                    </div>
-                </div>
-            </section>
-            
-            <!-- Halaman Admin -->
-            <section id="admin-page" class="page">
-                <div class="admin-section card">
-                    <div class="section-title">
-                        <i class="fas fa-user-shield"></i>
-                        <h2>Admin Dashboard</h2>
-                    </div>
-                    
-                    <div class="admin-controls">
-                        <button id="view-all-btn" class="btn btn-primary">
-                            <i class="fas fa-list"></i> Semua Presensi
-                        </button>
-                        <button id="view-today-btn" class="btn btn-success">
-                            <i class="fas fa-calendar-day"></i> Hari Ini
-                        </button>
-                        <button id="export-excel-btn" class="btn btn-secondary">
-                            <i class="fas fa-file-excel"></i> Export Excel
-                        </button>
-                    </div>
-                    
-                    <div class="stats-container">
-                        <div class="stat-card">
-                            <i class="fas fa-users"></i>
-                            <div class="label">Total GTK</div>
-                            <div class="number" id="total-teachers">40</div>
-                        </div>
-                        <div class="stat-card">
-                            <i class="fas fa-user-check"></i>
-                            <div class="label">Hadir Hari Ini</div>
-                            <div class="number" id="present-today">0</div>
-                        </div>
-                        <div class="stat-card">
-                            <i class="fas fa-chalkboard-teacher"></i>
-                            <div class="label">Total Presensi</div>
-                            <div class="number" id="total-presence">0</div>
-                        </div>
-                    </div>
-                    
-                    <div class="section-title">
-                        <i class="fas fa-history"></i>
-                        <h2>Daftar Presensi</h2>
-                    </div>
-                    
-                    <div class="admin-presence-list" id="admin-presence-list">
-                        <!-- Admin presence records will be added here -->
-                    </div>
-                    
-                    <!-- Section untuk Generate QR Code -->
-                    <div class="qr-generator-container">
-                        <div class="section-title">
-                            <i class="fas fa-qrcode"></i>
-                            <h2>Generator QR Code Kelas</h2>
-                        </div>
-                        
-                        <div class="qr-controls">
-                            <select id="classroom-select" class="input-field">
-                                <option value="">Pilih Kelas</option>
-                                <!-- Options akan diisi secara dinamis -->
-                            </select>
-                            <button id="generate-qr-btn" class="btn btn-primary">
-                                <i class="fas fa-qrcode"></i> Generate QR
-                            </button>
-                        </div>
-                        
-                        <div class="qr-preview" id="qr-preview">
-                            <div class="qr-class-name" id="qr-class-name"></div>
-                            <canvas id="qr-canvas"></canvas>
-                            <div class="qr-download-section">
-                                <button id="download-qr-btn" class="btn btn-success">
-                                    <i class="fas fa-download"></i> Download QR
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <!-- Section untuk Export Excel -->
-                    <div class="excel-export-container">
-                        <div class="section-title">
-                            <i class="fas fa-file-excel"></i>
-                            <h2>Export Data Presensi</h2>
-                        </div>
-                        
-                        <div class="date-range-selector">
-                            <input type="date" id="start-date" class="input-field" placeholder="Tanggal Mulai">
-                            <input type="date" id="end-date" class="input-field" placeholder="Tanggal Akhir">
-                            <button id="generate-excel-btn" class="btn btn-success">
-                                <i class="fas fa-file-export"></i> Generate Excel
-                            </button>
-                        </div>
-                        
-                        <div class="export-status" id="export-status">
-                            Status export akan muncul di sini
-                        </div>
-                    </div>
-                </div>
-            </section>
-        </main>
+            </div>
+        </div>
     </div>
     
     <div class="notification" id="notification">

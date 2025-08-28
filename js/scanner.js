@@ -1,7 +1,8 @@
-// Variabel untuk menyimpan mata pelajaran yang dipilih
+// Variabel untuk menyimpan mata pelajaran dan jam ke yang dipilih
 let selectedSubject = '';
+let selectedJamKe = '';
 
-// Fungsi untuk menampilkan pilihan mata pelajaran
+// Fungsi untuk menampilkan pilihan mata pelajaran dan jam ke
 function showSubjectSelection() {
     const subjectSelection = document.getElementById('subject-selection');
     const subjectSelect = document.getElementById('subject-select');
@@ -19,20 +20,23 @@ function showSubjectSelection() {
         });
     }
     
-    // Tampilkan section pemilihan mata pelajaran
+    // Reset dropdown jam ke
+    document.getElementById('jamke-select').value = '';
+    
+    // Tampilkan section pemilihan mata pelajaran dan jam ke
     subjectSelection.style.display = 'block';
     
     // Sembunyikan scanner container sementara
     document.querySelector('.scanner-container').style.display = 'none';
     document.querySelector('.scanner-controls').style.display = 'none';
-    scannerMessage.textContent = "Silakan pilih mata pelajaran terlebih dahulu";
+    scannerMessage.textContent = "Silakan pilih mata pelajaran dan jam ke terlebih dahulu";
 }
 
-// Fungsi untuk menyembunyikan pilihan mata pelajaran
+// Fungsi untuk menyembunyikan pilihan mata pelajaran dan jam ke
 function hideSubjectSelection() {
     const subjectSelection = document.getElementById('subject-selection');
     
-    // Sembunyikan section pemilihan mata pelajaran
+    // Sembunyikan section pemilihan mata pelajaran dan jam ke
     subjectSelection.style.display = 'none';
     
     // Tampilkan kembali scanner container
@@ -64,7 +68,7 @@ function scanQRCode() {
             // Cek apakah kelas valid
             if (classrooms.includes(classroom)) {
                 // Tambahkan presensi untuk guru yang login
-                addPresenceRecord(currentTeacher, classroom, selectedSubject);
+                addPresenceRecord(currentTeacher, classroom, selectedSubject, selectedJamKe);
                 
                 // Tampilkan pesan sukses
                 scannerMessage.innerHTML = `<span style="color: #2ecc71;">Presensi berhasil! ${currentTeacher.name} di ${classroom}</span>`;
@@ -89,21 +93,24 @@ function scanQRCode() {
 
 // Fungsi untuk memulai scanning
 async function startScanning() {
-    // PERUBAHAN: Tampilkan pilihan mata pelajaran terlebih dahulu
+    // Tampilkan pilihan mata pelajaran dan jam ke terlebih dahulu
     showSubjectSelection();
 }
 
-// Fungsi untuk mengonfirmasi pilihan mata pelajaran dan memulai scan
+// Fungsi untuk mengonfirmasi pilihan mata pelajaran dan jam ke, lalu memulai scan
 function confirmSubjectAndStartScan() {
     const subjectSelect = document.getElementById('subject-select');
-    selectedSubject = subjectSelect.value;
+    const jamkeSelect = document.getElementById('jamke-select');
     
-    if (!selectedSubject) {
-        showNotification("Silakan pilih mata pelajaran terlebih dahulu", true);
+    selectedSubject = subjectSelect.value;
+    selectedJamKe = jamkeSelect.value;
+    
+    if (!selectedSubject || !selectedJamKe) {
+        showNotification("Silakan pilih mata pelajaran dan jam ke terlebih dahulu", true);
         return;
     }
     
-    // Sembunyikan pilihan mata pelajaran
+    // Sembunyikan pilihan mata pelajaran dan jam ke
     hideSubjectSelection();
     
     // Mulai proses scanning
@@ -157,13 +164,15 @@ function stopScanning() {
     scannerMessage.textContent = "Scanning dihentikan. Klik 'Mulai Scan' untuk memulai kembali.";
     scannerLaser.style.display = 'none';
     
-    // Reset pilihan mata pelajaran
+    // Reset pilihan mata pelajaran dan jam ke
     selectedSubject = '';
+    selectedJamKe = '';
     document.getElementById('subject-select').value = '';
+    document.getElementById('jamke-select').value = '';
 }
 
 // Tambahkan presensi ke daftar
-async function addPresenceRecord(teacher, classroom, subject) {
+async function addPresenceRecord(teacher, classroom, subject, jamKe) {
     const now = new Date();
     const dateString = formatDate(now);
     const timeString = formatTime(now);
@@ -176,7 +185,8 @@ async function addPresenceRecord(teacher, classroom, subject) {
         date: dateString,
         time: timeString,
         timestamp: now.getTime(),
-        subjects: subject // PERUBAHAN: Hanya satu mata pelajaran yang dipilih
+        subjects: subject,
+        jamPelajaran: jamKe // PERUBAHAN: Gunakan jam ke yang dipilih
     };
     
     // Simpan ke array guru
@@ -203,7 +213,7 @@ async function addPresenceRecord(teacher, classroom, subject) {
     
     // Tampilkan notifikasi
     if (success) {
-        showNotification(`${teacher.name} terekam di ${classroom} untuk mapel ${subject} pukul ${timeString}`);
+        showNotification(`${teacher.name} terekam di ${classroom} untuk mapel ${subject} pada Jam ke-${jamKe} pukul ${timeString}`);
     }
 }
 
@@ -227,6 +237,9 @@ function updatePresenceList() {
             presenceCard.classList.add('new');
         }
         
+        // PERUBAHAN: Tambahkan informasi jam pelajaran
+        const jamInfo = presence.jamPelajaran > 0 ? `Jam ke-${presence.jamPelajaran}` : "Belum ditentukan";
+        
         presenceCard.innerHTML = `
             <div class="avatar">${presence.teacherName.charAt(0)}</div>
             <div class="info">
@@ -234,6 +247,7 @@ function updatePresenceList() {
                 <div class="details">
                     <div class="classroom">${presence.classroom}</div>
                     <div class="subject">${presence.subjects}</div>
+                    <div class="jam-pelajaran">${jamInfo}</div>
                     <div class="date">${presence.date}</div>
                     <div class="time">${presence.time}</div>
                 </div>
@@ -253,6 +267,6 @@ function updateStats() {
     // Hitung presensi hari ini
     const todayPresences = teacherPresences.filter(p => p.date === today && p.teacherId === currentTeacher.id);
     
-    // PERUBAHAN: Hanya menampilkan jumlah presensi hari ini
+    // Hanya menampilkan jumlah presensi hari ini
     todayPresenceElement.textContent = todayPresences.length;
 }

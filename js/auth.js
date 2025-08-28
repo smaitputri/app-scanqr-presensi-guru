@@ -8,6 +8,14 @@ async function sendToGoogleSheets(presenceRecord) {
         formData.append('date', presenceRecord.date);
         formData.append('time', presenceRecord.time);
         formData.append('subjects', presenceRecord.subjects);
+        formData.append('jamPelajaran', presenceRecord.jamPelajaran || 0); // Pastikan selalu ada nilai
+        
+        console.log('Mengirim data ke Google Sheets:', {
+            teacher: presenceRecord.teacherName,
+            classroom: presenceRecord.classroom,
+            time: presenceRecord.time,
+            jamPelajaran: presenceRecord.jamPelajaran
+        });
         
         const response = await fetch(GOOGLE_SCRIPT_URL, {
             method: 'POST',
@@ -23,6 +31,7 @@ async function sendToGoogleSheets(presenceRecord) {
         return false;
     }
 }
+
 
 // Update profil guru
 function updateProfile() {

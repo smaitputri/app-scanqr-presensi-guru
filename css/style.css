@@ -695,6 +695,8 @@ header h1 {
     font-weight: bold;
 }
 
+
+
 /* PERUBAHAN: Style untuk section pemilihan mata pelajaran
 .subject-selection {
     background: rgba(255, 255, 255, 0.1);
@@ -706,3 +708,32 @@ header h1 {
 .subject-selection .section-title {
     margin-bottom: 10px;
 } */
+
+/* PERUBAHAN: Style untuk form pemilihan mata pelajaran dan jam ke */
+.subject-selection {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+    padding: 20px;
+    margin-bottom: 20px;
+}
+
+.subject-selection .section-title {
+    margin-bottom: 15px;
+}
+
+.subject-selection label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: bold;
+    color: var(--light);
+}
+
+.subject-selection .date-input {
+    width: 100%;
+    padding: 12px;
+    border-radius: 5px;
+    border: none;
+    background: rgba(255, 255, 255, 0.1);
+    color: white;
+    font-size: 0.9rem;
+}
