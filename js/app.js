@@ -33,10 +33,12 @@ const scannerBtn = document.getElementById('scanner-btn');
 const dashboardBtn = document.getElementById('dashboard-btn');
 const profileBtn = document.getElementById('profile-btn');
 const adminBtn = document.getElementById('admin-btn');
+const daftarHadirBtn = document.getElementById('daftar-hadir-btn');
 const scannerPage = document.getElementById('scanner-page');
 const dashboardPage = document.getElementById('dashboard-page');
 const profilePage = document.getElementById('profile-page');
 const adminPage = document.getElementById('admin-page');
+const daftarHadirPage = document.getElementById('daftar-hadir-page');
 
 // Admin elements
 const viewAllBtn = document.getElementById('view-all-btn');
@@ -66,6 +68,10 @@ const confirmSubjectBtn = document.getElementById('confirm-subject-btn');
 
 // Inisialisasi aplikasi
 function initApp() {
+    // Display daftar hadir button for admin only
+    if(currentTeacher && currentTeacher.id === 0) {
+        daftarHadirBtn.style.display = 'block';
+    }
     // Update waktu secara real-time
     setInterval(updateDateTime, 1000);
     updateDateTime();
@@ -109,6 +115,7 @@ function initApp() {
             
             // Tampilkan atau sembunyikan tombol admin berdasarkan role
             adminBtn.style.display = teacher.id === 0 ? 'block' : 'none';
+            daftarHadirBtn.style.display = teacher.id === 0 ? 'block' : 'none';
             
             // Load presensi dari localStorage
             loadPresencesFromLocalStorage();
@@ -179,7 +186,31 @@ function initApp() {
         const todayPresences = allPresences.filter(p => p.date === today);
         updateAdminPresenceList(todayPresences);
     });
-    
+
+    // Event listener untuk tombol Daftar Hadir
+    daftarHadirBtn.addEventListener('click', function() {
+        scannerPage.classList.remove('active');
+        dashboardPage.classList.remove('active');
+        profilePage.classList.remove('active');
+        adminPage.classList.remove('active');
+        daftarHadirPage.classList.add('active');
+        scannerBtn.classList.remove('btn-primary');
+        scannerBtn.classList.add('btn-secondary');
+        dashboardBtn.classList.remove('btn-primary');
+        dashboardBtn.classList.add('btn-secondary');
+        profileBtn.classList.remove('btn-primary');
+        profileBtn.classList.add('btn-secondary');
+        adminBtn.classList.remove('btn-primary');
+        adminBtn.classList.add('btn-admin');
+        daftarHadirBtn.classList.remove('btn-primary');
+        daftarHadirBtn.classList.add('btn-secondary');
+        daftarHadirBtn.classList.remove('btn-secondary');
+        daftarHadirBtn.classList.add('btn-primary');
+        
+        // Load data dari Google Sheets secara otomatis
+        fetchAndRenderSheetsData();
+    });
+
     // Event listener untuk QR Generator
     generateQrBtn.addEventListener('click', function() {
         const selectedClassroom = classroomSelect.value;
@@ -201,6 +232,7 @@ function initApp() {
         dashboardPage.classList.remove('active');
         profilePage.classList.remove('active');
         adminPage.classList.remove('active');
+        daftarHadirPage.classList.remove('active');
         scannerBtn.classList.remove('btn-secondary');
         scannerBtn.classList.add('btn-primary');
         dashboardBtn.classList.remove('btn-primary');
@@ -216,6 +248,7 @@ function initApp() {
         dashboardPage.classList.add('active');
         profilePage.classList.remove('active');
         adminPage.classList.remove('active');
+        daftarHadirPage.classList.remove('active');
         scannerBtn.classList.remove('btn-primary');
         scannerBtn.classList.add('btn-secondary');
         dashboardBtn.classList.remove('btn-secondary');
@@ -235,6 +268,7 @@ function initApp() {
         dashboardPage.classList.remove('active');
         profilePage.classList.add('active');
         adminPage.classList.remove('active');
+        daftarHadirPage.classList.remove('active');
         scannerBtn.classList.remove('btn-primary');
         scannerBtn.classList.add('btn-secondary');
         dashboardBtn.classList.remove('btn-primary');
@@ -250,6 +284,7 @@ function initApp() {
         dashboardPage.classList.remove('active');
         profilePage.classList.remove('active');
         adminPage.classList.add('active');
+        daftarHadirPage.classList.remove('active');
         scannerBtn.classList.remove('btn-primary');
         scannerBtn.classList.add('btn-secondary');
         dashboardBtn.classList.remove('btn-primary');

@@ -55,4 +55,4 @@ const classrooms = [
 
 // Konstanta lainnya
 const ADMIN_nupy = "admin123";
-const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxvhNKgovS-tjsoAcmobnqrNqGNBeyRjhS6cavUMRl5X_P0Lz8fy9R-9UnFMM-2QPSvsA/exec";
+const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbz-rF5w1WHbKX3LTqemI9GpbiU4UJyaPcFTIinmFMCWSBDt9JKQ19RQiFV9tWqtDDyrVw/exec";

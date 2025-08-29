@@ -57,6 +57,9 @@
             <button id="admin-btn" class="btn btn-admin" style="display: none;">
                 <i class="fas fa-user-shield"></i> Admin
             </button>
+            <button id="daftar-hadir-btn" class="btn btn-primary" style="display: none;">
+                <i class="fas fa-table"></i> Daftar Hadir Pergantian Jam
+            </button>
         </nav>
         
         <main class="main-content">
@@ -194,6 +197,20 @@
                 </div>
             </section>
             
+            <!-- Halaman Daftar Hadir Pergantian Jam -->
+            <section id="daftar-hadir-page" class="page">
+                <div class="daftar-hadir-section card">
+                    <div class="section-title">
+                        <i class="fas fa-table"></i>
+                        <h2>Daftar Hadir Pergantian Jam</h2>
+                    </div>
+                    
+                    <div class="daftar-hadir-list" id="daftar-hadir-list">
+                        <!-- Data dari Google Sheets akan ditampilkan di sini -->
+                    </div>
+                </div>
+            </section>
+
             <!-- Halaman Admin -->
             <section id="admin-page" class="page">
                 <div class="admin-section card">
@@ -208,6 +225,9 @@
                         </button>
                         <button id="view-today-btn" class="btn btn-success">
                             <i class="fas fa-calendar-day"></i> Hari Ini
+                        </button>
+                        <button id="view-sheets-btn" class="btn btn-primary">
+                            <i class="fas fa-table"></i> Daftar Hadir Pergantian Jam
                         </button>
                         <button id="export-excel-btn" class="btn btn-secondary">
                             <i class="fas fa-file-excel"></i> Export Excel
