@@ -315,5 +315,73 @@ function initApp() {
     });
 }
 
+// Fungsi untuk fetch data dari Google Sheets dan render tabel
+async function fetchAndRenderSheetsData() {
+    adminPresenceList.innerHTML = '<div class="loading">Memuat data dari Google Sheets...</div>';
+    
+    try {
+        const url = `${GOOGLE_SCRIPT_URL}?action=get`;
+        const response = await fetch(url);
+        const json = await response.json();
+        
+        if (json.status === 'success' && Array.isArray(json.data)) {
+            renderSheetsTable(json.data);
+        } else {
+            adminPresenceList.innerHTML = '<div class="error">Gagal mengambil data: ' + (json.message || 'Unknown error') + '</div>';
+        }
+    } catch (err) {
+        adminPresenceList.innerHTML = '<div class="error">Error: ' + err.message + '</div>';
+    }
+}
+
+// Fungsi untuk render tabel dari data Google Sheets
+function renderSheetsTable(data) {
+    if (!data || data.length === 0) {
+        adminPresenceList.innerHTML = '<div class="empty">Tidak ada data presensi.</div>';
+        return;
+    }
+
+    const table = document.createElement('table');
+    table.className = 'presence-table';
+    
+    // Header
+    const thead = document.createElement('thead');
+    const headerRow = document.createElement('tr');
+    const headers = ['Timestamp', 'Nama Guru', 'Kelas', 'Hari', 'Tanggal', 'Waktu', 'Mata Pelajaran', 'Jam ke'];
+    
+    headers.forEach(header => {
+        const th = document.createElement('th');
+        th.textContent = header;
+        headerRow.appendChild(th);
+    });
+    thead.appendChild(headerRow);
+    table.appendChild(thead);
+    
+    // Body
+    const tbody = document.createElement('tbody');
+    data.forEach(row => {
+        const tr = document.createElement('tr');
+        [
+            row['Timestamp'] || '',
+            row['Nama Guru'] || row.teacher || '',
+            row['Kelas'] || row.classroom || '',
+            row['Hari'] || row.hari || '',
+            row['Tanggal'] || row.date || '',
+            row['Waktu'] || row.time || '',
+            row['Mata Pelajaran'] || row.subjects || '',
+            row['Jam ke'] || row.jam_ke || ''
+        ].forEach(value => {
+            const td = document.createElement('td');
+            td.textContent = value;
+            tr.appendChild(td);
+        });
+        tbody.appendChild(tr);
+    });
+    table.appendChild(tbody);
+    
+    adminPresenceList.innerHTML = '';
+    adminPresenceList.appendChild(table);
+}
+
 // Jalankan aplikasi saat halaman dimuat
 window.addEventListener('load', initApp);

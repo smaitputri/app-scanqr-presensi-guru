@@ -85,24 +85,7 @@ function downloadQRCode() {
     link.click();
 }
 
-// Fungsi untuk fetch data dari Google Sheets dan render tabel
-async function fetchAndRenderSheetsData() {
-    adminPresenceList.innerHTML = '<div class="loading">Memuat data dari Google Sheets...</div>';
-    
-    try {
-        const url = `${GOOGLE_SCRIPT_URL}?action=get`;
-        const response = await fetch(url);
-        const json = await response.json();
-        
-        if (json.status === 'success' && Array.isArray(json.data)) {
-            renderSheetsTable(json.data);
-        } else {
-            adminPresenceList.innerHTML = '<div class="error">Gagal mengambil data: ' + (json.message || 'Unknown error') + '</div>';
-        }
-    } catch (err) {
-        adminPresenceList.innerHTML = '<div class="error">Error: ' + err.message + '</div>';
-    }
-}
+// Fungsi untuk fetch data dari Google Sheets telah dipindahkan ke app.js
 
 // Fungsi untuk render tabel dari data Google Sheets
 function renderSheetsTable(data) {
