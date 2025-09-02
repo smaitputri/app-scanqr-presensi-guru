@@ -233,7 +233,7 @@ async function addPresenceRecord(teacher, classroom, subject, jamKe) {
     
     // Tampilkan notifikasi
     if (success) {
-        showNotification(`${teacher.name} terekam di ${classroom} untuk mapel ${subject} pada Jam ke-${jamKe} pukul ${timeString}`);
+        showNotification(`${teacher.name} terekam di ${classroom} untuk mapel ${subject} pukul ${timeString}`);
     }
 }
 
