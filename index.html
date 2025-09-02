@@ -10,15 +10,64 @@
     <script src="https://cdn.jsdelivr.net/npm/jsqr@1.4.0/dist/jsQR.min.js"></script>
     <script src="https://cdn.rawgit.com/davidshimjs/qrcodejs/gh-pages/qrcode.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+    <style>
+        .checkbox-container {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+            margin-top: 10px;
+        }
+        
+        .checkbox-item {
+            display: flex;
+            align-items: center;
+            padding: 10px;
+            background-color: #f8f9fa;
+            border-radius: 8px;
+            transition: all 0.2s ease;
+            border: 1px solid #e9ecef;
+        }
+        
+        .checkbox-item:hover {
+            background-color: #e9ecef;
+            transform: translateY(-2px);
+        }
+        
+        .checkbox-item input[type="checkbox"] {
+            margin-right: 10px;
+            width: 18px;
+            height: 18px;
+            cursor: pointer;
+        }
+        
+        .checkbox-item label {
+            cursor: pointer;
+            font-size: 0.95rem;
+            color: #333;
+            flex: 1;
+        }
+        
+        .select-all-container {
+            margin-bottom: 15px;
+            padding: 10px;
+            background-color: #e8f5e9;
+            border-radius: 8px;
+            border: 1px solid #c8e6c9;
+        }
+        
+        @media (max-width: 768px) {
+            .checkbox-container {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
 </head>
 <body>
     <!-- Halaman Login -->
     <div id="login-page" class="login-page">
         <img src="images/logo-presensi-guru-1.png" alt="Logo Presensi Guru" class="logo-image">
         <div class="login-container">
-            
             <div class="login-logo">
-                
                 <!-- <h1 class="logo-text">Sistem Presensi Guru</h1> -->
             </div>
             
@@ -64,82 +113,110 @@
         
         <main class="main-content">
             <!-- Halaman Scanner -->
-        <div id="scanner-page" class="page active">
-            <div class="scanner-section">
-                <div class="section-title">
-                    <i class="fas fa-qrcode"></i>
-                    <h2>Scan QR Code Kelas</h2>
-                </div>
-                
-                <!-- PERUBAHAN: Tambahan dropdown pemilihan mapel dan jam ke -->
-                <div class="subject-selection" id="subject-selection" style="display: none; margin-bottom: 30px; background: #ffffff; border-radius: 12px; padding: 25px; box-shadow: 0 4px 12px rgba(0,0,0,0.08); font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;">
-    <!-- Header Section -->
-    <div class="section-title" style="display: flex; align-items: center; margin-bottom: 25px; padding-bottom: 15px; border-bottom: 1px solid #eaeaea;">
-        <div style="background: #4CAF50; width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-right: 12px;">
-            <i class="fas fa-book" style="color: white; font-size: 18px;"></i>
-        </div>
-        <h2 style="margin: 0; color: #333; font-weight: 600; font-size: 1.4rem;">Pilih Mata Pelajaran dan Jam Ke</h2>
-    </div>
-    
-    <!-- Selection Grid -->
-    <div style="display: grid; grid-template-columns: 1fr; gap: 20px; margin-bottom: 20px;">
-        <!-- Subject Selection -->
-        <div>
-            <label for="subject-select" style="display: block; margin-bottom: 8px; font-weight: 600; color: #444; font-size: 0.95rem;">Mata Pelajaran</label>
-            <select id="subject-select" class="subject-input" style="width: 100%; padding: 12px 15px; border: 1px solid #ddd; border-radius: 8px; background: #f9f9f9; font-size: 1rem; color: #333; transition: all 0.3s ease; outline: none;">
-                <option value="">-- Pilih Mata Pelajaran --</option>
-                <!-- Options akan diisi secara dinamis -->
-            </select>
-        </div>
-        
-        <!-- Jam Ke Selection -->
-        <div>
-            <label for="jamke-select" style="display: block; margin-bottom: 8px; font-weight: 600; color: #444; font-size: 0.95rem;">Jam Ke</label>
-            <select id="jamke-select" class="subject-input" style="width: 100%; padding: 12px 15px; border: 1px solid #ddd; border-radius: 8px; background: #f9f9f9; font-size: 1rem; color: #333; transition: all 0.3s ease; outline: none;">
-                <option value="">-- Pilih Jam Ke --</option>
-                <option value="1">Jam ke-1 (07.30 - 08.10)</option>
-                <option value="2">Jam ke-2 (08.10 - 08.50)</option>
-                <option value="3">Jam ke-3 (08.50 - 09.30)</option>
-                <option value="4">Jam ke-4 (09.30 - 10.10)</option>
-                <option value="5">Jam ke-5 (10.40 - 11.15)</option>
-                <option value="6">Jam ke-6 (11.15 - 11.50)</option>
-                <option value="7">Jam ke-7 (11.50 - 12.25)</option>
-                <option value="8">Jam ke-8 (12.25 - 13.00)</option>
-            </select>
-        </div>
-    </div>
-    
-    <!-- Confirm Button -->
-    <button id="confirm-subject-btn" class="btn-confirm" style="margin-top: 10px; width: 100%; padding: 14px; background: #4CAF50; color: white; border: none; border-radius: 8px; font-size: 1rem; font-weight: 600; cursor: pointer; transition: all 0.3s ease; display: flex; align-items: center; justify-content: center; gap: 8px;">
-        <i class="fas fa-check"></i> Konfirmasi dan Mulai Scan
-    </button>
-</div>
-
-                
-                <div class="scanner-container">
-                    <video id="video" playsinline></video>
-                    <div class="scanner-laser" id="scanner-laser"></div>
-                    <div class="scanner-overlay">
-                        <i class="fas fa-camera"></i>
-                        <p>Arahkan kamera ke QR Code yang ada di kelas</p>
-                        <p class="scanner-hint">Pastikan QR code berada dalam area kotak</p>
+            <div id="scanner-page" class="page active">
+                <div class="scanner-section">
+                    <div class="section-title">
+                        <i class="fas fa-qrcode"></i>
+                        <h2>Scan QR Code Kelas</h2>
+                    </div>
+                    
+                    <!-- PERUBAHAN: Tambahan dropdown pemilihan mapel dan checkbox untuk jam ke -->
+                    <div class="subject-selection" id="subject-selection" style="display: none; margin-bottom: 30px; background: #ffffff; border-radius: 12px; padding: 25px; box-shadow: 0 4px 12px rgba(0,0,0,0.08); font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;">
+                        <!-- Header Section -->
+                        <div class="section-title" style="display: flex; align-items: center; margin-bottom: 25px; padding-bottom: 15px; border-bottom: 1px solid #eaeaea;">
+                            <div style="background: #4CAF50; width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-right: 12px;">
+                                <i class="fas fa-book" style="color: white; font-size: 18px;"></i>
+                            </div>
+                            <h2 style="margin: 0; color: #333; font-weight: 600; font-size: 1.4rem;">Pilih Mata Pelajaran dan Jam Ke</h2>
+                        </div>
+                        
+                        <!-- Selection Grid -->
+                        <div style="display: grid; grid-template-columns: 1fr; gap: 20px; margin-bottom: 20px;">
+                            <!-- Subject Selection -->
+                            <div>
+                                <label for="subject-select" style="display: block; margin-bottom: 8px; font-weight: 600; color: #444; font-size: 0.95rem;">Mata Pelajaran</label>
+                                <select id="subject-select" class="subject-input" style="width: 100%; padding: 12px 15px; border: 1px solid #ddd; border-radius: 8px; background: #f9f9f9; font-size: 1rem; color: #333; transition: all 0.3s ease; outline: none;">
+                                    <option value="">-- Pilih Mata Pelajaran --</option>
+                                    <!-- Options akan diisi secara dinamis -->
+                                </select>
+                            </div>
+                            
+                            <!-- Jam Ke Selection - DIUBAH MENJADI CHECKBOX -->
+                            <div>
+                                <label style="display: block; margin-bottom: 8px; font-weight: 600; color: #444; font-size: 0.95rem;">Pilih Jam Ke (Bisa lebih dari satu)</label>
+                                
+                                <div class="select-all-container">
+                                    <input type="checkbox" id="select-all-jam" style="margin-right: 10px;">
+                                    <label for="select-all-jam" style="font-weight: 600; cursor: pointer;">Pilih Semua</label>
+                                </div>
+                                
+                                <div class="checkbox-container" id="jamke-checkboxes">
+                                    <div class="checkbox-item">
+                                        <input type="checkbox" id="jamke-1" name="jamke" value="1">
+                                        <label for="jamke-1">Jam ke-1 (07.30 - 08.10)</label>
+                                    </div>
+                                    <div class="checkbox-item">
+                                        <input type="checkbox" id="jamke-2" name="jamke" value="2">
+                                        <label for="jamke-2">Jam ke-2 (08.10 - 08.50)</label>
+                                    </div>
+                                    <div class="checkbox-item">
+                                        <input type="checkbox" id="jamke-3" name="jamke" value="3">
+                                        <label for="jamke-3">Jam ke-3 (08.50 - 09.30)</label>
+                                    </div>
+                                    <div class="checkbox-item">
+                                        <input type="checkbox" id="jamke-4" name="jamke" value="4">
+                                        <label for="jamke-4">Jam ke-4 (09.30 - 10.10)</label>
+                                    </div>
+                                    <div class="checkbox-item">
+                                        <input type="checkbox" id="jamke-5" name="jamke" value="5">
+                                        <label for="jamke-5">Jam ke-5 (10.40 - 11.15)</label>
+                                    </div>
+                                    <div class="checkbox-item">
+                                        <input type="checkbox" id="jamke-6" name="jamke" value="6">
+                                        <label for="jamke-6">Jam ke-6 (11.15 - 11.50)</label>
+                                    </div>
+                                    <div class="checkbox-item">
+                                        <input type="checkbox" id="jamke-7" name="jamke" value="7">
+                                        <label for="jamke-7">Jam ke-7 (11.50 - 12.25)</label>
+                                    </div>
+                                    <div class="checkbox-item">
+                                        <input type="checkbox" id="jamke-8" name="jamke" value="8">
+                                        <label for="jamke-8">Jam ke-8 (12.25 - 13.00)</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Confirm Button -->
+                        <button id="confirm-subject-btn" class="btn-confirm" style="margin-top: 10px; width: 100%; padding: 14px; background: #4CAF50; color: white; border: none; border-radius: 8px; font-size: 1rem; font-weight: 600; cursor: pointer; transition: all 0.3s ease; display: flex; align-items: center; justify-content: center; gap: 8px;">
+                            <i class="fas fa-check"></i> Konfirmasi dan Mulai Scan
+                        </button>
+                    </div>
+                    
+                    <div class="scanner-container">
+                        <video id="video" playsinline></video>
+                        <div class="scanner-laser" id="scanner-laser"></div>
+                        <div class="scanner-overlay">
+                            <i class="fas fa-camera"></i>
+                            <p>Arahkan kamera ke QR Code yang ada di kelas</p>
+                            <p class="scanner-hint">Pastikan QR code berada dalam area kotak</p>
+                        </div>
+                    </div>
+                    
+                    <div class="scanner-controls">
+                        <button id="start-btn" class="btn btn-primary">
+                            <i class="fas fa-play"></i> Mulai Scan
+                        </button>
+                        <button id="stop-btn" class="btn btn-danger" disabled>
+                            <i class="fas fa-stop"></i> Stop
+                        </button>
+                    </div>
+                    
+                    <div class="scanner-status">
+                        <p id="scanner-message">Kamera belum diaktifkan. Klik "Mulai Scan" untuk memulai.</p>
                     </div>
                 </div>
-                
-                <div class="scanner-controls">
-                    <button id="start-btn" class="btn btn-primary">
-                        <i class="fas fa-play"></i> Mulai Scan
-                    </button>
-                    <button id="stop-btn" class="btn btn-danger" disabled>
-                        <i class="fas fa-stop"></i> Stop
-                    </button>
-                </div>
-                
-                <div class="scanner-status">
-                    <p id="scanner-message">Kamera belum diaktifkan. Klik "Mulai Scan" untuk memulai.</p>
-                </div>
             </div>
-        </div>
             
             <!-- Halaman Dashboard -->
             <section id="dashboard-page" class="page">

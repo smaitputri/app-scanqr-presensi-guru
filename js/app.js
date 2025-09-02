@@ -176,6 +176,11 @@ function initApp() {
     // Berhenti scanning
     stopBtn.addEventListener('click', stopScanning);
     
+    // Event listener untuk "Pilih Semua" checkbox
+    document.getElementById('select-all-jam').addEventListener('change', function() {
+        toggleSelectAllJam(this.checked);
+    });
+    
     // Event listener untuk tombol admin
     viewAllBtn.addEventListener('click', function() {
         updateAdminPresenceList(allPresences);

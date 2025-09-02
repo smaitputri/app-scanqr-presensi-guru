@@ -1,6 +1,6 @@
 // Variabel untuk menyimpan mata pelajaran dan jam ke yang dipilih
 let selectedSubject = '';
-let selectedJamKe = '';
+let selectedJamKe = [];
 
 // Fungsi untuk menampilkan pilihan mata pelajaran dan jam ke
 function showSubjectSelection() {
@@ -20,8 +20,12 @@ function showSubjectSelection() {
         });
     }
     
-    // Reset dropdown jam ke
-    document.getElementById('jamke-select').value = '';
+    // Reset checkbox jam ke
+    const jamkeCheckboxes = document.querySelectorAll('input[name="jamke"]');
+    jamkeCheckboxes.forEach(checkbox => {
+        checkbox.checked = false;
+    });
+    document.getElementById('select-all-jam').checked = false;
     
     // Tampilkan section pemilihan mata pelajaran dan jam ke
     subjectSelection.style.display = 'block';
@@ -67,11 +71,17 @@ function scanQRCode() {
             
             // Cek apakah kelas valid
             if (classrooms.includes(classroom)) {
-                // Tambahkan presensi untuk guru yang login
-                addPresenceRecord(currentTeacher, classroom, selectedSubject, selectedJamKe);
+                // Tambahkan presensi untuk setiap jam ke yang dipilih
+                selectedJamKe.forEach(jamKe => {
+                    addPresenceRecord(currentTeacher, classroom, selectedSubject, jamKe);
+                });
                 
                 // Tampilkan pesan sukses
-                scannerMessage.innerHTML = `<span style="color: #2ecc71;">Presensi berhasil! ${currentTeacher.name} di ${classroom}</span>`;
+                const jamKeText = selectedJamKe.length > 1 
+                    ? `Jam ke-${selectedJamKe.join(', ')}` 
+                    : `Jam ke-${selectedJamKe[0]}`;
+                
+                scannerMessage.innerHTML = `<span style="color: #2ecc71;">Presensi berhasil! ${currentTeacher.name} di ${classroom} untuk ${jamKeText}</span>`;
                 
                 // Berhenti scanning setelah berhasil
                 stopScanning();
@@ -100,13 +110,18 @@ async function startScanning() {
 // Fungsi untuk mengonfirmasi pilihan mata pelajaran dan jam ke, lalu memulai scan
 function confirmSubjectAndStartScan() {
     const subjectSelect = document.getElementById('subject-select');
-    const jamkeSelect = document.getElementById('jamke-select');
     
     selectedSubject = subjectSelect.value;
-    selectedJamKe = jamkeSelect.value;
     
-    if (!selectedSubject || !selectedJamKe) {
-        showNotification("Silakan pilih mata pelajaran dan jam ke terlebih dahulu", true);
+    // Ambil semua jam ke yang dipilih dari checkbox
+    selectedJamKe = [];
+    const jamkeCheckboxes = document.querySelectorAll('input[name="jamke"]:checked');
+    jamkeCheckboxes.forEach(checkbox => {
+        selectedJamKe.push(checkbox.value);
+    });
+    
+    if (!selectedSubject || selectedJamKe.length === 0) {
+        showNotification("Silakan pilih mata pelajaran dan setidaknya satu jam ke", true);
         return;
     }
     
@@ -166,9 +181,14 @@ function stopScanning() {
     
     // Reset pilihan mata pelajaran dan jam ke
     selectedSubject = '';
-    selectedJamKe = '';
+    selectedJamKe = [];
     document.getElementById('subject-select').value = '';
-    document.getElementById('jamke-select').value = '';
+    
+    const jamkeCheckboxes = document.querySelectorAll('input[name="jamke"]');
+    jamkeCheckboxes.forEach(checkbox => {
+        checkbox.checked = false;
+    });
+    document.getElementById('select-all-jam').checked = false;
 }
 
 // Tambahkan presensi ke daftar
@@ -186,7 +206,7 @@ async function addPresenceRecord(teacher, classroom, subject, jamKe) {
         time: timeString,
         timestamp: now.getTime(),
         subjects: subject,
-        jamPelajaran: jamKe // PERUBAHAN: Gunakan jam ke yang dipilih
+        jamPelajaran: jamKe
     };
     
     // Simpan ke array guru
@@ -237,7 +257,6 @@ function updatePresenceList() {
             presenceCard.classList.add('new');
         }
         
-        // PERUBAHAN: Tambahkan informasi jam pelajaran
         const jamInfo = presence.jamPelajaran > 0 ? `Jam ke-${presence.jamPelajaran}` : "Belum ditentukan";
         
         presenceCard.innerHTML = `
@@ -269,4 +288,12 @@ function updateStats() {
     
     // Hanya menampilkan jumlah presensi hari ini
     todayPresenceElement.textContent = todayPresences.length;
+}
+
+// Fungsi untuk select/deselect semua jam ke
+function toggleSelectAllJam(selectAll) {
+    const jamkeCheckboxes = document.querySelectorAll('input[name="jamke"]');
+    jamkeCheckboxes.forEach(checkbox => {
+        checkbox.checked = selectAll;
+    });
 }

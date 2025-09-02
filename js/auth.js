@@ -6,12 +6,12 @@ async function sendToGoogleSheets(presenceRecord) {
     formData.append('teacher', presenceRecord.teacherName);
     formData.append('classroom', presenceRecord.classroom);
     formData.append('date', presenceRecord.date); // Format: dd/mm/yyyy
-  // Pastikan time dikirim sebagai HH:mm untuk konsistensi dengan Apps Script
-  // Normalisasi: ganti '.' dengan ':' (karena toLocaleTimeString('id-ID') menghasilkan '23.53.51')
-  const rawTime = (presenceRecord.time || '').toString().trim().replace(/\./g, ':').replace(/\s+/g, '');
-  const tParts = rawTime.split(':');
-  const formattedTime = tParts.length >= 2 ? `${tParts[0].padStart(2,'0')}:${tParts[1].padStart(2,'0')}` : rawTime;
-  formData.append('time', formattedTime);
+    // Pastikan time dikirim sebagai HH:mm untuk konsistensi dengan Apps Script
+    // Normalisasi: ganti '.' dengan ':' (karena toLocaleTimeString('id-ID') menghasilkan '23.53.51')
+    const rawTime = (presenceRecord.time || '').toString().trim().replace(/\./g, ':').replace(/\s+/g, '');
+    const tParts = rawTime.split(':');
+    const formattedTime = tParts.length >= 2 ? `${tParts[0].padStart(2,'0')}:${tParts[1].padStart(2,'0')}` : rawTime;
+    formData.append('time', formattedTime);
     formData.append('subjects', presenceRecord.subjects);
     formData.append('jamPelajaran', presenceRecord.jamPelajaran || 0);
 
@@ -61,7 +61,6 @@ async function sendToGoogleSheets(presenceRecord) {
     return false;
   }
 }
-
 
 // Update profil guru
 function updateProfile() {
