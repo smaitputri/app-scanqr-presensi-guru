@@ -216,7 +216,7 @@ async function addPresenceRecord(teacher, classroom, subject, jamKe) {
     allPresences.unshift(presenceRecord);
     
     // Simpan ke localStorage
-    //savePresencesToLocalStorage();
+    savePresencesToLocalStorage();
     
     // Kirim ke Google Sheets
     const success = await sendToGoogleSheets(presenceRecord);
