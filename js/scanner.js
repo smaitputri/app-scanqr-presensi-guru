@@ -6,9 +6,10 @@ let selectedJamKe = [];
 function showSubjectSelection() {
     const subjectSelection = document.getElementById('subject-selection');
     const subjectSelect = document.getElementById('subject-select');
+    const jamKeSection = document.querySelector('.checkbox-container').parentElement;
     
     // Kosongkan dropdown mata pelajaran
-    subjectSelect.innerHTML = '<option value="">-- Pilih Mata Pelajaran --</option>';
+    subjectSelect.innerHTML = '<option value="">Pilih Mata Pelajaran atau Jam Kedatangan</option>';
     
     // Isi dropdown dengan mata pelajaran guru
     if (currentTeacher && currentTeacher.subjects) {
@@ -34,14 +35,32 @@ function showSubjectSelection() {
     document.querySelector('.scanner-container').style.display = 'none';
     document.querySelector('.scanner-controls').style.display = 'none';
     scannerMessage.textContent = "Silakan pilih mata pelajaran dan jam ke terlebih dahulu";
+    
+    // Event listener untuk menangani perubahan pilihan mata pelajaran
+    subjectSelect.addEventListener('change', function() {
+        if (this.value === "Jam Kedatangan") {
+            // Sembunyikan pilihan jam ke untuk Jam Kedatangan
+            jamKeSection.style.display = 'none';
+            document.querySelector('.select-all-container').style.display = 'none';
+        } else {
+            // Tampilkan kembali pilihan jam ke untuk mata pelajaran biasa
+            jamKeSection.style.display = 'block';
+            document.querySelector('.select-all-container').style.display = 'block';
+        }
+    });
 }
 
 // Fungsi untuk menyembunyikan pilihan mata pelajaran dan jam ke
 function hideSubjectSelection() {
     const subjectSelection = document.getElementById('subject-selection');
+    const jamKeSection = document.querySelector('.checkbox-container').parentElement;
     
     // Sembunyikan section pemilihan mata pelajaran dan jam ke
     subjectSelection.style.display = 'none';
+    
+    // Tampilkan kembali pilihan jam ke untuk penggunaan selanjutnya
+    jamKeSection.style.display = 'block';
+    document.querySelector('.select-all-container').style.display = 'block';
     
     // Tampilkan kembali scanner container
     document.querySelector('.scanner-container').style.display = 'block';
@@ -76,12 +95,16 @@ function scanQRCode() {
                     addPresenceRecord(currentTeacher, classroom, selectedSubject, jamKe);
                 });
                 
-                // Tampilkan pesan sukses
-                const jamKeText = selectedJamKe.length > 1 
-                    ? `Jam ke-${selectedJamKe.join(', ')}` 
-                    : `Jam ke-${selectedJamKe[0]}`;
-                
-                scannerMessage.innerHTML = `<span style="color: #2ecc71;">Presensi berhasil! ${currentTeacher.name} di ${classroom} untuk ${jamKeText}</span>`;
+                // Tampilkan pesan sukses dengan format berbeda untuk Jam Kedatangan
+                if (selectedSubject === "Jam Kedatangan") {
+                    scannerMessage.innerHTML = `<span style="color: #2ecc71;">Presensi Kedatangan berhasil! ${currentTeacher.name} di ${classroom}</span>`;
+                } else {
+                    const jamKeText = selectedJamKe.length > 1 
+                        ? `Jam ke-${selectedJamKe.join(', ')}` 
+                        : `Jam ke-${selectedJamKe[0]}`;
+                    
+                    scannerMessage.innerHTML = `<span style="color: #2ecc71;">Presensi berhasil! ${currentTeacher.name} di ${classroom} untuk ${jamKeText}</span>`;
+                }
                 
                 // Berhenti scanning setelah berhasil
                 stopScanning();
@@ -113,7 +136,20 @@ function confirmSubjectAndStartScan() {
     
     selectedSubject = subjectSelect.value;
     
-    // Ambil semua jam ke yang dipilih dari checkbox
+    // Cek apakah yang dipilih adalah "Jam Kedatangan"
+    if (selectedSubject === "Jam Kedatangan") {
+        // Untuk Jam Kedatangan, langsung mulai scan tanpa memilih jam ke
+        selectedJamKe = ["Kedatangan"]; // Set nilai khusus untuk Jam Kedatangan
+        
+        // Sembunyikan pilihan mata pelajaran dan jam ke
+        hideSubjectSelection();
+        
+        // Mulai proses scanning
+        startCameraAndScan();
+        return;
+    }
+    
+    // Untuk mata pelajaran biasa, ambil semua jam ke yang dipilih dari checkbox
     selectedJamKe = [];
     const jamkeCheckboxes = document.querySelectorAll('input[name="jamke"]:checked');
     jamkeCheckboxes.forEach(checkbox => {
@@ -189,6 +225,11 @@ function stopScanning() {
         checkbox.checked = false;
     });
     document.getElementById('select-all-jam').checked = false;
+    
+    // Pastikan pilihan jam ke ditampilkan kembali
+    const jamKeSection = document.querySelector('.checkbox-container').parentElement;
+    jamKeSection.style.display = 'block';
+    document.querySelector('.select-all-container').style.display = 'block';
 }
 
 // Tambahkan presensi ke daftar
@@ -231,9 +272,13 @@ async function addPresenceRecord(teacher, classroom, subject, jamKe) {
         updateAdminPresenceList(allPresences);
     }
     
-    // Tampilkan notifikasi
+    // Tampilkan notifikasi dengan format khusus untuk Jam Kedatangan
     if (success) {
-        showNotification(`${teacher.name} terekam di ${classroom} untuk mapel ${subject} pukul ${timeString}`);
+        if (subject === "Jam Kedatangan") {
+            showNotification(`Presensi Terekam, ${teacher.name} Presensi Kedatangan pukul ${timeString}`);
+        } else {
+            showNotification(`${teacher.name} terekam di ${classroom} untuk mapel ${subject} pukul ${timeString}`);
+        }
     }
 }
 
@@ -257,7 +302,8 @@ function updatePresenceList() {
             presenceCard.classList.add('new');
         }
         
-        const jamInfo = presence.jamPelajaran > 0 ? `Jam ke-${presence.jamPelajaran}` : "Belum ditentukan";
+        const jamInfo = presence.subjects === "Jam Kedatangan" ? "Kedatangan" : 
+                       (presence.jamPelajaran > 0 ? `Jam ke-${presence.jamPelajaran}` : "Belum ditentukan");
         
         presenceCard.innerHTML = `
             <div class="avatar">${presence.teacherName.charAt(0)}</div>
