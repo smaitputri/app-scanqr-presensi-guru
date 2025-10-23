@@ -50,7 +50,7 @@ const teachers = [
 const classrooms = [
     "KELAS-XA", "KELAS-XB", "KELAS-XC", "KELAS-XD",
     "KELAS-XI-IBB-1", "KELAS-XI-IBB-2", "KELAS-XI-MIA-1", "KELAS-XI-MIA-2",
-    "KELAS-XII-IBB-1", "KELAS-XII-IBB-2", "KELAS-XII-MIA-1", "KELAS-XII-MIA-2"
+    "KELAS-XII-IBB-1", "KELAS-XII-IBB-2", "KELAS-XII-MIA-1", "KELAS-XII-MIA-2","Jam Kedatangan"
 ];
 
 // Konstanta lainnya
