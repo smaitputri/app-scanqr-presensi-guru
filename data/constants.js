@@ -43,14 +43,16 @@ const teachers = [
     { id: 41, name: "Ahmad Rosidi, S.E.", nupy: "1053", subjects: ["KTU","Jam Kedatangan"] },
     { id: 42, name: "Gunawan Trianto, M.Pd.", nupy: "1007", subjects: ["Kepala Sekolah","Jam Kedatangan"] },
     { id: 43, name: "Sativa Nasywa Az-Zahra, S.I.Pust.", nupy: "2046", subjects: ["Staff Perpustakaan","Jam Kedatangan"] },
-    { id: 44, name: "Haeratunnisa, S.Pd.", nupy: "2018", subjects: ["Fiqh","Jam Kedatangan"] }
+    { id: 44, name: "Haeratunnisa, S.Pd.", nupy: "2018", subjects: ["Fiqh","Jam Kedatangan"] },
+    { id: 45, name: "Linda Malasari, S.Kom.", nupy: "2023", subjects: ["Staff Administrasi","Jam Kedatangan"] },
+    
 ];
 
 // Data kelas
 const classrooms = [
     "KELAS-XA", "KELAS-XB", "KELAS-XC", "KELAS-XD",
     "KELAS-XI-IBB-1", "KELAS-XI-IBB-2", "KELAS-XI-MIA-1", "KELAS-XI-MIA-2",
-    "KELAS-XII-IBB-1", "KELAS-XII-IBB-2", "KELAS-XII-MIA-1", "KELAS-XII-MIA-2","Jam Kedatangan"
+    "KELAS-XII-IBB-1", "KELAS-XII-IBB-2", "KELAS-XII-MIA-1", "KELAS-XII-MIA-2","-"
 ];
 
 // Konstanta lainnya
