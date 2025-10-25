@@ -34,7 +34,7 @@ function showSubjectSelection() {
     // Sembunyikan scanner container sementara
     document.querySelector('.scanner-container').style.display = 'none';
     document.querySelector('.scanner-controls').style.display = 'none';
-    scannerMessage.textContent = "Silakan pilih mata pelajaran dan jam ke terlebih dahulu";
+    scannerMessage.textContent = "Silahkan pilih mata pelajaran dan jam ke atau jam kedatangan terlebih dahulu";
     
     // Event listener untuk menangani perubahan pilihan mata pelajaran
     subjectSelect.addEventListener('change', function() {
