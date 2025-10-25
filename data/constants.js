@@ -37,14 +37,14 @@ const teachers = [
     { id: 35, name: "Risa Herlina Hariati, S.Pd.", nupy: "2304", subjects: ["Biologi","IPA-Biologi","Jam Kedatangan"] },
     { id: 36, name: "Novita Supiyani, S.Pd.", nupy: "2109", subjects: ["Kimia","IPA-Kimia","PJOK","Jam Kedatangan"] },
     { id: 37, name: "Siti Nurlaelan Barorah, S.Pd.", nupy: "2155", subjects: ["Fisika","IPA-Fisika","PJOK","Jam Kedatangan"] },
-    { id: 38, name: "Rahim Imaduddin, S.T.", nupy: "1046", subjects: ["Wakasek dan Bendahara","Jam Kedatangan"] },
-    { id: 39, name: "Irma Suryaningsih, S.Pd.", nupy: "2181", subjects: ["Staff Administrasi","Jam Kedatangan"] },
-    { id: 40, name: "Muhammad Wardiyan Dzulfikar R., S.Kom.", nupy: "1065", subjects: ["Staff Administrasi","Jam Kedatangan"] },
-    { id: 41, name: "Ahmad Rosidi, S.E.", nupy: "1053", subjects: ["KTU","Jam Kedatangan"] },
-    { id: 42, name: "Gunawan Trianto, M.Pd.", nupy: "1007", subjects: ["Kepala Sekolah","Jam Kedatangan"] },
-    { id: 43, name: "Sativa Nasywa Az-Zahra, S.I.Pust.", nupy: "2046", subjects: ["Staff Perpustakaan","Jam Kedatangan"] },
+    { id: 38, name: "Rahim Imaduddin, S.T.", nupy: "1046", subjects: ["Jam Kedatangan"] },
+    { id: 39, name: "Irma Suryaningsih, S.Pd.", nupy: "2181", subjects: ["Jam Kedatangan"] },
+    { id: 40, name: "Muhammad Wardiyan Dzulfikar R., S.Kom.", nupy: "1065", subjects: ["Jam Kedatangan"] },
+    { id: 41, name: "Ahmad Rosidi, S.E.", nupy: "1053", subjects: ["Jam Kedatangan"] },
+    { id: 42, name: "Gunawan Trianto, M.Pd.", nupy: "1007", subjects: ["Jam Kedatangan"] },
+    { id: 43, name: "Sativa Nasywa Az-Zahra, S.I.Pust.", nupy: "2046", subjects: ["Jam Kedatangan"] },
     { id: 44, name: "Haeratunnisa, S.Pd.", nupy: "2018", subjects: ["Fiqh","Jam Kedatangan"] },
-    { id: 45, name: "Linda Malasari, S.Kom.", nupy: "2023", subjects: ["Staff Administrasi","Jam Kedatangan"] },
+    { id: 45, name: "Linda Malasari, S.Kom.", nupy: "2023", subjects: ["Jam Kedatangan"] },
     
 ];
 
