@@ -45,6 +45,7 @@ const teachers = [
     { id: 43, name: "Sativa Nasywa Az-Zahra, S.I.Pust.", nupy: "2046", subjects: ["Jam Kedatangan"] },
     { id: 44, name: "Haeratunnisa, S.Pd.", nupy: "2018", subjects: ["Fiqh","Jam Kedatangan"] },
     { id: 45, name: "Linda Malasari, S.Kom.", nupy: "2023", subjects: ["Jam Kedatangan"] },
+    { id: 45, name: "Burhan Saleh, S.Kom.", nupy: "1049", subjects: ["Jam Kedatangan"] },
     
 ];
 
