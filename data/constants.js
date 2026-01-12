@@ -14,7 +14,7 @@ const teachers = [
     { id: 12, name: "Desiana Rahim Riani, Lc.", nupy: "2060", subjects: ["Bahasa Arab","Nahwu","Jam Kedatangan"] },
     { id: 13, name: "Rima Suci, Lc.", nupy: "2014", subjects: ["Shorof","Bahasa dan Sastra Arab","Fiqh","Adab Akhlak","Jam Kedatangan"] },
     { id: 14, name: "Khaula Hanifa, S.Pd.", nupy: "2015", subjects: ["Aqidah","Adab Akhlak","Jam Kedatangan"] },
-    { id: 15, name: "Risnatul Aini, Lc.", nupy: "2000", subjects: ["Ta'bir","Bahasa Arab","Jam Kedatangan"] },
+    { id: 15, name: "Risnatul Aini, Lc.", nupy: "2000", subjects: ["Shorof","Ta'bir","Bahasa Arab","Jam Kedatangan"] },
     { id: 16, name: "Annisa Rabbani, Lc.", nupy: "2012", subjects: ["Nahwu","Bahasa Arab","Shorof","Jam Kedatangan"] },
     { id: 17, name: "Nazhiroh", nupy: "2042", subjects: ["Tahfizhul Qur'an","Jam Kedatangan"] },
     { id: 18, name: "Parmiatun", nupy: "2072", subjects: ["Tahfizhul Qur'an","Jam Kedatangan"] },
