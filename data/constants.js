@@ -52,8 +52,8 @@ const teachers = [
 // Data kelas
 const classrooms = [
     "KELAS-XA", "KELAS-XB", "KELAS-XC", "KELAS-XD",
-    "KELAS-XI-A", "KELAS-XI-IBB-2", "KELAS-XI-MIA-1", "KELAS-XI-MIA-2",
-    "KELAS-XII-IBB-1", "KELAS-XII-IBB-2", "KELAS-XII-MIA-1", "KELAS-XII-MIA-2","Jam Kedatangan"
+    "KELAS-XIA(IBB1)", "KELAS-XIB(IBB2)", "KELAS-XIC(MIA1)", "KELAS-XID(MIA2)",
+    "KELAS-XIIA(IBB1)", "KELAS-XIIB(IBB2)", "KELAS-XIIC(MIA1)", "KELAS-XIID(MIA2)","Jam Kedatangan"
 ];
 
 // Konstanta lainnya
